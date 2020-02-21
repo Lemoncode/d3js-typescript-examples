@@ -374,6 +374,160 @@ const partiesColorScale = d3
 
 - We feel proud about this chart, we could now add a legend, x/y axis... but we will
   stop by now:
-  - We could used a barchart layout to create this and save some time.
+  - We could used a histogram layout to create this and save some time.
   - If we talk to our boss (we are simulating that we are working on a news paper),
     he would say this is not the type of chart optimal to display election results (crap !).
+
+In the next example we will create an horizontal rectangle showing a segment.
+
+# Appendix - Refactoring
+
+One of the weak points of d3js is that the code generated looks a bit cryptic, too much details, could it
+be possible to refactor it?
+
+If we play bit we can end up with something like:
+
+```typescript
+const svg = createBlankSvg();
+const yScale = createYScale();
+const chartGroup = createChartGroup();
+generateBarChart(chartGroup);
+```
+
+And _generateBarChart_ could be splitted into two functions:
+
+```typescript
+const drawSingleBar = (
+  parent: d3.Selection<d3.EnterElement, ResultEntry, SVGGElement, unknown>
+) => {
+  parent
+    .append("rect")
+    .attr("width", barWidth)
+    .attr("height", d => yScale(d.seats))
+    .attr("x", (d, i) => i * (barWidth + barPadding))
+    .attr("y", d => chartDimensions.height - yScale(d.seats))
+    .attr("fill", d => partiesColorScale(d.party));
+};
+
+const generateBarChart = (
+  element: d3.Selection<SVGGElement, unknown, HTMLElement, any>
+) => {
+  const selection = chartGroup
+    .selectAll("rect")
+    .data(resultCollectionSpainNov19)
+    .enter();
+  drawSingleBar(selection);
+};
+```
+
+Whole refactored file:
+
+```typescript
+import * as d3 from "d3";
+import { resultCollectionSpainNov19, ResultEntry } from "./data";
+
+const svgDimensions = { width: 500, height: 500 };
+const margin = { left: 5, right: 5, top: 10, bottom: 10 };
+const chartDimensions = {
+  width: svgDimensions.width - margin.left - margin.right,
+  height: svgDimensions.height - margin.bottom - margin.top
+};
+const maxNumberSeats = resultCollectionSpainNov19.reduce(
+  (max, item) => (item.seats > max ? item.seats : max),
+  0
+);
+const politicalPartiesCount = resultCollectionSpainNov19.length;
+
+const barPadding = 5; // We could calculate this value as well
+const barWidth =
+  (chartDimensions.width - barPadding * politicalPartiesCount) /
+  politicalPartiesCount;
+
+const partiesColorScale = d3
+  .scaleOrdinal([
+    "PSOE",
+    "PP",
+    "VOX",
+    "UP",
+    "ERC",
+    "Cs",
+    "JxCat",
+    "PNV",
+    "Bildu",
+    "Más pais",
+    "CUP",
+    "CC",
+    "BNG",
+    "Teruel Existe"
+  ])
+  .range([
+    "#ED1D25",
+    "#0056A8",
+    "#5BC035",
+    "#6B2E68",
+    "#F3B219",
+    "#FA5000",
+    "#C50048",
+    "#029626",
+    "#A3C940",
+    "#0DDEC5",
+    "#FFF203",
+    "#FFDB1B",
+    "#E61C13",
+    "#73B1E6",
+    "#BECD48",
+    "#017252"
+  ]);
+
+const createBlankSvg = () =>
+  d3
+    .select("body")
+    .append("svg")
+    .attr("width", svgDimensions.width)
+    .attr("height", svgDimensions.height)
+    .attr("style", "background-color: #FBFAF0");
+
+const createYScale = () =>
+  d3
+    .scaleLinear()
+    .domain([0, maxNumberSeats])
+    .range([0, chartDimensions.height]);
+
+const createChartGroup = () =>
+  svg
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    .attr("width", chartDimensions.width)
+    .attr("height", chartDimensions.height);
+
+const drawSingleBar = (
+  parent: d3.Selection<d3.EnterElement, ResultEntry, SVGGElement, unknown>
+) => {
+  parent
+    .append("rect")
+    .attr("width", barWidth)
+    .attr("height", d => yScale(d.seats))
+    .attr("x", (d, i) => i * (barWidth + barPadding))
+    .attr("y", d => chartDimensions.height - yScale(d.seats))
+    .attr("fill", d => partiesColorScale(d.party));
+};
+
+const generateBarChart = (
+  element: d3.Selection<SVGGElement, unknown, HTMLElement, any>
+) => {
+  const selection = chartGroup
+    .selectAll("rect")
+    .data(resultCollectionSpainNov19)
+    .enter();
+  drawSingleBar(selection);
+};
+
+const svg = createBlankSvg();
+const yScale = createYScale();
+const chartGroup = createChartGroup();
+generateBarChart(chartGroup);
+```
+
+Some links about better coding d3js:
+
+https://bost.ocks.org/mike/chart/
