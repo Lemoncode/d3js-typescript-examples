@@ -1,10 +1,5 @@
 import * as d3 from "d3";
-/*
-    <svg style="width:500px;height:500px">
-      <circle r="100" />
-      <text x="100" y="100">funfurrunchen?</text>
-    </svg>
-*/
+
 const svg = d3
   .select("body")
   .append("svg")
@@ -22,5 +17,3 @@ svg
   .attr("r", 20)
   .attr("cx", 20)
   .attr("cy", 20);
-
-console.log("hola");
