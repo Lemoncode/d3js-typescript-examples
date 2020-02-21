@@ -288,3 +288,92 @@ chartGroup
 +  .attr("x", (d, i) => i * (barWidth + barPadding) )
   .attr("y", d => chartDimensions.height - yScale(d.seats));
 ```
+
+- Now let's give some color to this chart, we can setup a wide range of color scales,
+  e.g. based on value ranges or based on ordinal values, etc...
+
+- In this case we will create a discrete color palette based on the political parties:
+
+```typescript
+const partiesColorScale = d3
+  .scaleOrdinal([
+    "PSOE",
+    "PP",
+    "VOX",
+    "UP",
+    "ERC",
+    "Cs",
+    "JxCat",
+    "PNV",
+    "Bildu",
+    "Más pais",
+    "CUP",
+    "CC",
+    "BNG",
+    "Teruel Existe"
+  ])
+  .range(d3.schemeCategory10);
+```
+
+- And let's use it on every chart:
+
+```diff
+chartGroup
+  .selectAll("rect")
+  .data(resultCollectionSpainNov19)
+  .enter()
+  .append("rect")
+  .attr("width", barWidth)
+  .attr("height", d => yScale(d.seats))
+  .attr("x", (d, i) => i * (barWidth + barPadding))
+  .attr("y", d => chartDimensions.height - yScale(d.seats))
++ .attr("fill", d => partiesColorScale(d.party));
+  ;
+```
+
+- That was nice but we want to use as each bar background it's corresponding political party background, let's go for that:
+
+```diff
+const partiesColorScale = d3
+  .scaleOrdinal([
+    "PSOE",
+    "PP",
+    "VOX",
+    "UP",
+    "ERC",
+    "Cs",
+    "JxCat",
+    "PNV",
+    "Bildu",
+    "Más pais",
+    "CUP",
+    "CC",
+    "BNG",
+    "Teruel Existe"
+  ])
+-  .range(d3.schemeCategory10);
++  .range([
++     '#ED1D25',
++     '#0056A8',
++     '#5BC035',
++     '#6B2E68',
++     '#F3B219',
++     '#FA5000',
++     '#C50048',
++     '#029626',
++     '#A3C940',
++     '#0DDEC5',
++     '#FFF203',
++     '#FFDB1B',
++     '#E61C13',
++     '#73B1E6',
++     '#BECD48',
++     '#017252'
++ ]);
+```
+
+- We feel proud about this chart, we could now add a legend, x/y axis... but we will
+  stop by now:
+  - We could used a barchart layout to create this and save some time.
+  - If we talk to our boss (we are simulating that we are working on a news paper),
+    he would say this is not the type of chart optimal to display election results (crap !).

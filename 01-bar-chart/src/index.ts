@@ -18,6 +18,42 @@ const barWidth =
   (chartDimensions.width - barPadding * politicalPartiesCount) /
   politicalPartiesCount;
 
+const partiesColorScale = d3
+  .scaleOrdinal([
+    "PSOE",
+    "PP",
+    "VOX",
+    "UP",
+    "ERC",
+    "Cs",
+    "JxCat",
+    "PNV",
+    "Bildu",
+    "Más pais",
+    "CUP",
+    "CC",
+    "BNG",
+    "Teruel Existe"
+  ])
+  .range([
+    "#ED1D25",
+    "#0056A8",
+    "#5BC035",
+    "#6B2E68",
+    "#F3B219",
+    "#FA5000",
+    "#C50048",
+    "#029626",
+    "#A3C940",
+    "#0DDEC5",
+    "#FFF203",
+    "#FFDB1B",
+    "#E61C13",
+    "#73B1E6",
+    "#BECD48",
+    "#017252"
+  ]);
+
 const svg = d3
   .select("body")
   .append("svg")
@@ -44,4 +80,5 @@ chartGroup
   .attr("width", barWidth)
   .attr("height", d => yScale(d.seats))
   .attr("x", (d, i) => i * (barWidth + barPadding))
-  .attr("y", d => chartDimensions.height - yScale(d.seats));
+  .attr("y", d => chartDimensions.height - yScale(d.seats))
+  .attr("fill", d => partiesColorScale(d.party));
