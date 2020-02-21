@@ -135,7 +135,7 @@ svg
   .attr("width", 50)
   .attr("height", d => d.seats);
   .attr("x", (d,i) => i * 60)
-+  .attr("y", (d) => 200 - d.seats)
++  .attr("y", (d) => 490 - d.seats)
   ;
 ```
 
@@ -154,5 +154,137 @@ const svg = d3
   .attr("width", 500)
   .attr("height", 500);
 
-+ const yScale = d3.scaleLinear().domain(0, 350).range([0, 300]);
++ const yScale = d3.scaleLinear().domain([0, 150]).range([0, 490]);
+```
+
+- And let's scale each bar position plus it's height:
+
+```diff
+svg
+  .selectAll("rect")
+  .data(resultCollectionSpainNov19)
+  .enter()
+  .append("rect")
+  .attr("width", 50)
+-  .attr("height", d => d.seats)
++  .attr("height", d => yScale(d.seats))
+  .attr("x", (d, i) => i * 60)
+-  .attr("y", d => 200 - d.seats);
++  .attr("y", d => 490 - yScale(d.seats));
+```
+
+- Adding magic harcoded numbers can be a bit dangerous, e.g. if you decide to change the height of your canvas, or add different margin everyting can be screwn up.
+  let's refactor this a bit and add some variables to control all this:
+
+```diff
++  const svgDimensions = {width: 500, height: 500}
++  const margin = { left: 5, right: 5, top: 10, bottom: 10 };
++  const chartDimensions = {
++    width: svgDimensions.width - margin.left - margin.right,,
++    height: svgDimensions.height - margin.bottom - margin.top
++  };
++  const maxNumberSeats = resultCollectionSpainNov19.reduce((max, item) => (item.seats > max) ?
++                                                                item.seats
++                                                                :
++                                                                max
++ , 0);
+
+const svg = d3
+  .select("body")
+  .append("svg")
+-  .attr("width", 500)
++  .attr("width", svgDimensions.width)
+-  .attr("height", 500)
++  .attr("height", svgDimensions.height)
+  .attr("style", "background-color: red");
+```
+
+- Nice it's time to remove harcoded values on the scale:
+
+```diff
+const yScale = d3
+  .scaleLinear()
+-  .domain([0, 150])
++ .domain([0, maxNumberSeats])
+-  .range([0, 490]);
++  .range([0, chartDimensions.height]);
+```
+
+- Let's create a group that will add the top margin offset.
+
+```diff
+const yScale = d3
+  .scaleLinear()
+  .domain([0, maxNumberSeats])
+  .range([0, chartDimensions.height]);
+
++ const chartGroup = svg
++ .append("g")
++ .attr("transform", `translate(${margin.left}, ${margin.top})`)
++ .attr("width", chartDimensions.width)
++ .attr("height", chartDimensions.height);
+```
+
+- And start our chart under that group.
+
+- And remove the harcoded values on the chart rendering it self (y axis):
+
+```diff
+- svg
++ chartGroup
+  .selectAll("rect")
+  .data(resultCollectionSpainNov19)
+  .enter()
+  .append("rect")
+  .attr("width", 50)
+  .attr("height", d => yScale(d.seats))
+  .attr("x", (d, i) => i * 60)
+-  .attr("y", d => 490 - yScale(d.seats));
++  .attr("y", d => chartDimensions.height - yScale(d.seats));
+```
+
+> In order to resize charts and keep aspect ratio, you can calculate new sizes or use svg ViewBox.
+
+- That was great for the y scale, what about X axis? In this case since we get a fix width
+  per bar we can just setup a formula to calculate this.
+
+```diff
+const svgDimensions = { width: 500, height: 500 };
+const margin = { left: 0, right: 0, top: 10, bottom: 10 };
+const chartDimensions = {
+  width: svgDimensions.width,
+  height: svgDimensions.height - margin.bottom - margin.top
+};
+const maxNumberSeats = resultCollectionSpainNov19.reduce(
+  (max, item) => (item.seats > max ? item.seats : max),
+  0
+);
++ const politicalPartiesCount = resultCollectionSpainNov19.length;
+```
+
+```diff
++ const barPadding = 5; // We could calculate this value as well
++ const barWidth =
++  (chartDimensions.width - barPadding * politicalPartiesCount) /
++  politicalPartiesCount;
+
+const yScale = d3
+  .scaleLinear()
+  .domain([0, maxNumberSeats])
+  .range([0, chartDimensions.height]);
+```
+
+```diff
+chartGroup
+  .selectAll("rect")
+  .data(resultCollectionSpainNov19)
+  .enter()
+  .append("rect")
+-  .attr("width", 50)
++  .attr("width", barWidth)
+
+  .attr("height", d => yScale(d.seats))
+-  .attr("x", (d, i) => i * 60)
++  .attr("x", (d, i) => i * (barWidth + barPadding) )
+  .attr("y", d => chartDimensions.height - yScale(d.seats));
 ```
