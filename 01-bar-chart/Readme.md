@@ -3,8 +3,9 @@
 We are going to simulate that we have just started working on a local newspaper (we are d3js noob) our boss asked us to generate a chart
 showing national elections results (we will evolve this charts in the following examples).
 
-First we are going to start creating a Bar Chart form scratch (we won't get benefit of any already built in layout), this will serve
-us to learn the basics of d3js.
+First we are going to start creating a Bar Chart form scratch (we won't get benefit of any already built in layout), this will serve us to learn the basics of d3js.
+
+![Example bar chart](./content/bar-chart.png "Example bar chart")
 
 # Steps
 
