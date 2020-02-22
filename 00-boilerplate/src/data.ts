@@ -1,4 +1,4 @@
-interface resultEntry {
+export interface ResultEntry {
   party: string;
   seats: number;
 }
@@ -6,7 +6,7 @@ interface resultEntry {
 // Approx numbers
 // https://www.lavanguardia.com/elecciones/elecciones-generales-noviembre-2019
 
-export const resultCollectionSpainNov19: resultEntry[] = [
+export const resultCollectionSpainNov19: ResultEntry[] = [
   {
     party: "PSOE",
     seats: 120
@@ -65,7 +65,7 @@ export const resultCollectionSpainNov19: resultEntry[] = [
   }
 ];
 
-export const resultCollectionSpainApr19: resultEntry[] = [
+export const resultCollectionSpainApr19: ResultEntry[] = [
   {
     party: "PSOE",
     seats: 123
