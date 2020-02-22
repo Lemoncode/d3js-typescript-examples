@@ -1,12 +1,7 @@
-# d3js-typescript-examples
+# Single bar + Layout
 
-Learn d3js by doing, set of step by step guided examples built using
-**d3js** + **typescript**.
 
-- Barchart.
-- Single horizontal bar chart.
-- Pie chart.
-- Semi arch chart.
+# Steps
 
 # About Basefactor + Lemoncode
 

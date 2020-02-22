@@ -1,99 +1,3 @@
-# Initial boiler plate
-
-This is just a simple boiler plate that will let us having a playground for our examples.
-
-Project setup:
-
-- Bundling: **Parcel**.
-- Language: **Typescript**.
-- Libraries imported: d3js (whole library, not using selective imports approach).
-
-This examples would work using any other bundler, e.g. **Webpack**, just chosen **Parcel** for the
-sake of simplicity.
-
-You will need to have installed an uptodate version of **nodejs** to run this example.
-
-# Steps
-
-Steps to recreate this example from scratch:
-
-- Initialize the project
-
-```bash
-npm init -y
-```
-
-- Install **Parcel**:
-
-```bash
-npm install parcel --save-dev
-```
-
-- Install **rimraf** (to cleanup dist folder), and **npm-run-all** (to launch tasks in parallel).
-
-```bash
-npm install rimraf npm-run-all --save-dev
-```
-
-- Install **Typescript**:
-
-```bash
-npm install typescript --save-dev
-```
-
-- Let's add a _tsconfig_ file.
-
-_./tsconfig.json_
-
-```json
-{
-  "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
-    "declaration": false,
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "jsx": "react",
-    "noLib": false,
-    "allowJs": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "baseUrl": "./src/"
-  }
-}
-```
-
-- Let's add a command in package.json to launch the application:
-
-_./package.json_
-
-```diff
-  "scripts": {
-+    "start": "run-p -l type-check:watch start:dev",
-+    "type-check": "tsc --noEmit",
-+    "type-check:watch": "npm run type-check -- --watch",
-+    "start:dev": "parcel ./src/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-```
-
-- Install d3js:
-
-```bash
-npm install d3 --save
-```
-
-- Install d3js typings:
-
-```bash
-npm install @types/d3 --save
-```
-
-- Let's add some CSS reset
-
-```css
 /*
 	Theme Name: ReClean
 	Theme URI: http://www.codenx.com/
@@ -270,7 +174,8 @@ table {
 }
 body {
   background: none repeat scroll 0% 0% rgb(255, 255, 255);
-  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-size: 13px;
   color: #3b3b3b;
 }
@@ -386,52 +291,3 @@ fieldset {
 .nav ul li {
   padding: 0 20px;
 }
-```
-
-- Let's create a main index.html under src folder
-
-_./src/index.html_
-
-```html
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="./base.css" />
-  </head>
-  <body>
-    <script src="./index.ts"></script>
-  </body>
-</html>
-```
-
-- Let's create a index.ts file under src folder and add some basic d3js content to check that everything is working fine
-
-_./src/index.ts_
-
-```typescript
-import * as d3 from "d3";
-
-d3.select("body")
-  .append("svg")
-  .attr("width", 500)
-  .attr("height", 500)
-  .append("text")
-  .attr("x", 100)
-  .attr("y", 100)
-  .attr("text", "Hello d3js");
-```
-
-- Let's run the example
-
-```bash
-npm start
-```
-
-# About Basefactor + Lemoncode
-
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
-
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
