@@ -154,7 +154,7 @@ const svg = d3
   .attr("width", 500)
   .attr("height", 500);
 
-+ const yScale = d3.scaleLinear().domain([0, 150]).range([0, 490]);
++ const yScale = d3.scaleLinear().domain([0, 150]).range([0, 480]);
 ```
 
 - And let's scale each bar position plus it's height:
