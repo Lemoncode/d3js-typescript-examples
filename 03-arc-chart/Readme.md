@@ -1,430 +1,167 @@
-# Initial boiler plate
+# Semi Arch Chart
 
-This is just a simple boiler plate that will let us having a playground for our examples.
+Hey.. we got some positive feedback from our boss, the chart starts to make sense, buuuuut wouldn't it be nice
+to display the bar as a semi arch.
 
-Project setup:
+Something like:
 
-- Bundling: **Parcel**.
-- Language: **Typescript**.
-- Libraries imported: d3js (whole library, not using selective imports approach).
-
-This examples would work using any other bundler, e.g. **Webpack**, just chosen **Parcel** for the
-sake of simplicity.
-
-You will need to have installed an uptodate version of **nodejs** to run this example.
+Well... since we have learn to use layouts, this time we will make use of the _pieChartLayout_, the good thing
+of layouts is that you can easily preprocess the data the way you need it to display a customized chart
+(instead of a pie, it will be a ring chart + semi arch).
 
 # Steps
 
-Steps to recreate this example from scratch:
+- We will take as starting sample _00-boilerplate_.
 
-- Initialize the project
-
-```bash
-npm init -y
-```
-
-- Install **Parcel**:
+- Let's copy the content from _00-boilerplate_ and execute _npm install_
 
 ```bash
-npm install parcel --save-dev
+npm install
 ```
 
-- Install **rimraf** (to cleanup dist folder), and **npm-run-all** (to launch tasks in parallel).
+- Let's start by adding the setting information we have alreadty calculated
+  in the previous chart.
 
-```bash
-npm install rimraf npm-run-all --save-dev
-```
+- Let's wipe the test content in _index.ts_
 
-- Install **Typescript**:
-
-```bash
-npm install typescript --save-dev
-```
-
-- Let's add a _tsconfig_ file.
-
-_./tsconfig.json_
-
-```json
-{
-  "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
-    "declaration": false,
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "jsx": "react",
-    "noLib": false,
-    "allowJs": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "baseUrl": "./src/"
-  }
-}
-```
-
-- Let's add a command in package.json to launch the application:
-
-_./package.json_
+_./src/index.ts_
 
 ```diff
-  "scripts": {
-+    "start": "run-p -l type-check:watch start:dev",
-+    "type-check": "tsc --noEmit",
-+    "type-check:watch": "npm run type-check -- --watch",
-+    "start:dev": "parcel ./src/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+- import * as d3 from "d3";
+
+- svg
+-  .append("text")
+-  .attr("x", 100)
+-  .attr("y", 100)
+-  .text("Hello d3js");
+-
+-svg
+-  .append("circle")
+-  .attr("r", 20)
+-  .attr("cx", 20)
+-  .attr("cy", 20);
 ```
 
-- Install d3js:
+- Let's add all the settings. IMPORTANT this time the height will be fixed (we will
+  name that const **barHeight** and the width will be dynamic).
 
-```bash
-npm install d3 --save
-```
-
-- Install d3js typings:
-
-```bash
-npm install @types/d3 --save
-```
-
-- Let's add some CSS reset
-
-```css
-/*
-	Theme Name: ReClean
-	Theme URI: http://www.codenx.com/
-	Theme Version: 1.0
-	Theme Date: 2013-03-12
-	Theme Author: CodeNx
-	Theme Author URI: http://www.codenx.com/
-	Theme License: GPLv2
-*/
-
-/*---[ Start: global css ]---*/
-
-/* Import Google Web Fonts
-@import url(http://fonts.googleapis.com/css?family=Maven+Pro:400);
--------------------------------------------------- @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
-*/
-/**
-    * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
-    * http://cssreset.com
-    */
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
-body {
-  line-height: 1;
-}
-ol,
-ul {
-  list-style: none;
-}
-blockquote,
-q {
-  quotes: none;
-}
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
-  content: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
-}
-.clearfix {
-  display: inline-table;
-}
-/* Hides from IE-mac \*/
-* html .clearfix {
-  height: 1%;
-}
-.clearfix {
-  display: block;
-}
-/* End hide from IE-mac */
-
-:-moz-placeholder {
-  color: #aaa !important;
-  font-style: italic;
-  line-height: 20px;
-}
-::-webkit-input-placeholder {
-  color: #aaa !important;
-  font-style: italic;
-  line-height: 20px;
-}
-body {
-  background: none repeat scroll 0% 0% rgb(255, 255, 255);
-  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: #3b3b3b;
-}
-.fl {
-  float: left;
-}
-.fr {
-  float: right;
-}
-h1 {
-  font-weight: 400;
-  line-height: 1.1em;
-  border-bottom: 1px dashed #0077bb;
-  position: relative;
-  padding: 14px 25px 5px 0;
-  font-size: 2.5em;
-  text-transform: uppercase;
-  line-height: 1.2em;
-  margin: 0.2em 0px 20px -2px;
-  color: rgb(0, 170, 238);
-  text-decoration: none;
-}
-h2 {
-  font-size: 16px;
-  color: #111;
-  padding: 5px 20px !important;
-  clear: both;
-  background: #eee;
-  font-weight: 700;
-}
-h3 {
-  margin: 0 0 10px 0;
-  color: #111;
-}
-blockquote {
-  background: #eee;
-  padding: 15px;
-  margin: 30px auto;
-  border: 1px solid #aaa;
-  font-size: 16px;
-  font-style: italic;
-  color: #000;
-  position: relative;
-}
-blockquote p {
-  margin: 0;
-  padding: 0;
-}
-img {
-  border: none;
-}
-ul.left {
-}
-
-ul.right {
-  text-align: right;
-}
-a:link,
-a:visited {
-  text-decoration: none;
-  color: #0077bb;
-}
-a:hover,
-a:active {
-  color: #0099cc;
-  text-decoration: underline;
-}
-button::-moz-focus-inner {
-  border: 0;
-  padding: 0;
-}
-form,
-fieldset {
-  padding: 0;
-  margin: 0;
-  border: none;
-}
-.header {
-  background-color: #fff;
-  height: 10%;
-}
-.header-wrapper {
-  width: 998px;
-  margin: 0 auto;
-  background-color: #fff;
-}
-.logo {
-  width: 200px;
-  margin-top: 10px;
-}
-.search {
-  margin-top: 10px;
-}
-.nav {
-  height: 10%;
-  background-color: #00aeec;
-}
-.nav-wrapper {
-  margin: 0 auto;
-  width: 998px;
-}
-.nav ul,
-.header ul,
-.sidebar ul {
-  list-style: none;
-  list-style-type: none;
-}
-.nav ul li,
-.header ul li {
-  display: inline;
-  padding: 0px 10px 0px 10px;
-}
-.nav ul li {
-  padding: 0 20px;
-}
-```
-
-- Let's create a main index.html under src folder
-
-_./src/index.html_
-
-```html
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="./base.css" />
-  </head>
-  <body>
-    <script src="./index.ts"></script>
-  </body>
-</html>
-```
-
-- Let's create a index.ts file under src folder and add some basic d3js content to check that everything is working fine
+> As an enhancemente this time we will take the keys from the data array, and
+> we will increase the with of the chart to 800 pixels.
 
 _./src/index.ts_
 
 ```typescript
 import * as d3 from "d3";
+import { resultCollectionSpainNov19 } from "./data";
 
-d3.select("body")
+const svgDimensions = { width: 800, height: 500 };
+const margin = { left: 5, right: 5, top: 10, bottom: 10 };
+const chartDimensions = {
+  width: svgDimensions.width - margin.left - margin.right,
+  height: svgDimensions.height - margin.bottom - margin.top
+};
+const totalNumberSeats = resultCollectionSpainNov19.reduce(
+  (sum, item) => sum + item.seats,
+  0
+);
+const politicalPartiesCount = resultCollectionSpainNov19.length;
+const barHeight = 200;
+
+const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
+  item => item.party
+);
+
+const partiesColorScale = d3
+  .scaleOrdinal(politicalPartiesKeys)
+  .range([
+    "#ED1D25",
+    "#0056A8",
+    "#5BC035",
+    "#6B2E68",
+    "#F3B219",
+    "#FA5000",
+    "#C50048",
+    "#029626",
+    "#A3C940",
+    "#0DDEC5",
+    "#FFF203",
+    "#FFDB1B",
+    "#E61C13",
+    "#73B1E6",
+    "#BECD48",
+    "#017252"
+  ]);
+
+const svg = d3
+  .select("body")
   .append("svg")
-  .attr("width", 500)
-  .attr("height", 500)
-  .append("text")
-  .attr("x", 100)
-  .attr("y", 100)
-  .attr("text", "Hello d3js");
+  .attr("width", svgDimensions.width)
+  .attr("height", svgDimensions.height)
+  .attr("style", "background-color: #FBFAF0");
+
+const chartGroup = svg
+  .append("g")
+  .attr("transform", `translate(${margin.left}, ${margin.top})`)
+  .attr("width", chartDimensions.width)
+  .attr("height", chartDimensions.height);
 ```
 
-- Let's run the example
+- For the pie to be created we need to calculate it's radius:
 
-```bash
-npm start
+```typescript
+const radius = Math.min(chartDimensions.width, chartDimensions.height) / 2;
 ```
+
+- Now we need to move the center of the pie chart, from 0,0 to radius, radius
+
+```typescript
+chartGroup.attr("transform", `translate(${radius},${radius})`);
+```
+
+- Now we want to create a rign (doughnut), it will have an _innerRadius_ and _outerRadius_.
+
+```typescript
+var arc = d3.svg
+  .arc()
+  .innerRadius(79)
+  .outerRadius(radius);
+```
+
+- Now it's time for the pie layout to make it's magic, we will indicate that we want him to calculate all the semi archs angles,
+  based on the values (and base on a half pie shape).
+
+```typescript
+const pie = d3.layout
+  .pie()
+  .startAngle(-90 * (Math.PI / 180))
+  .endAngle(90 * (Math.PI / 180))
+  .value(d => d.seats);
+```
+
+- Now it's time to start rendering our chart:
+
+```typescript
+const arcs = chartGroup
+  .selectAll("g.slice")
+  .data(pie)
+  .enter()
+  .append("g"); // Create a group to hoild each slice (we can have path and text if needed)
+
+arcs
+  .append("path")
+  .attr("fill", (d, i) => partiesColorScale(d.party)) // TODO color ordinal
+  .attr("transform", d => {
+    // we have to make sure to set these before calling arc.centroid
+    d.innerRadius = 0;
+    d.outerRadius = radius;
+
+    return `translate(${arc.centroid(d.seats)}`;
+  });
+```
+
+# Additional resources
+
+Check this great example from Saninn: https://jsfiddle.net/Saninn/15pwLf7u/
 
 # About Basefactor + Lemoncode
 
