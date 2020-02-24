@@ -7,6 +7,7 @@ const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top
 };
+
 const totalNumberSeats = resultCollectionSpainNov19.reduce(
   (sum, item) => sum + item.seats,
   0

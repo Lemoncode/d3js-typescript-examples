@@ -1,13 +1,14 @@
-# Single bar + Layout
-
-TODO: better solution
-https://stackoverflow.com/questions/49917244/single-horizontal-stacked-bar
+# Single bar
 
 So the boss was not happy with a Barchart, we must choose a chart type where
 is easier to check the relative weight of each political party compared with
 the total of seats available.
 
 Maybe a chart like this could help:
+
+![single horizontal stack bar chart](./content/chart.png "single horizontal stack bar chart")
+
+Click here to check the sample live: [Codesandbox](https://codesandbox.io/s/flamboyant-forest-sxyq0)
 
 Let's give a try.
 
@@ -55,16 +56,18 @@ _./src/index.ts_
 import * as d3 from "d3";
 import { resultCollectionSpainNov19 } from "./data";
 
-const svgDimensions = { width: 500, height: 500 };
+const svgDimensions = { width: 800, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
 const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top
 };
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
-  (max, item) => (item.seats > max ? item.seats : max),
+
+const totalNumberSeats = resultCollectionSpainNov19.reduce(
+  (sum, item) => sum + item.seats,
   0
 );
+
 const politicalPartiesCount = resultCollectionSpainNov19.length;
 const barHeight = 200;
 
@@ -124,9 +127,9 @@ const chartGroup = svg
   let's calcualte the XScale (seats to pixels).
 
 ```typescript
-const yScale = d3
+const xScale = d3
   .scaleLinear()
-  .domain([0, maxNumberSeats])
+  .domain([0, totalNumberSeats])
   .range([0, chartDimensions.width]);
 ```
 
@@ -144,7 +147,7 @@ chartGroup
   .data(resultCollectionSpainNov19)
   .enter()
   .append("rect")
-  .attr("width", d => yScale(d.seats))
+  .attr("width", d => xScale(d.seats))
   .attr("height", barHeight)
   .attr("x", (d, i) => {
     const position = currentXPosition;

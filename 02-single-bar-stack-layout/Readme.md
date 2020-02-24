@@ -10,6 +10,10 @@ years election results? .... StackLayout to the rescue.
 We are going to recreate the same chart as in the previous sample but
 using d3js stack layout:
 
+![single horizontal stack bar chart](./content/chart.png "single horizontal stack bar chart")
+
+Live example: [codesandbox](https://codesandbox.io/s/nice-mccarthy-1jwtx)
+
 Let's give a try.
 
 # Steps
@@ -50,7 +54,8 @@ _./src/index.ts_
 - Let's add all the settings. IMPORTANT this time the height will be fixed (we will
   name that const **barHeight** and the width will be dynamic).
 
-> As an enhancemente this time we will take the keys from the data arraty.
+> As an enhancemente this time we will take the keys from the data array, and
+> we will increase the with of the chart to 800 pixels.
 
 _./src/index.ts_
 
@@ -58,14 +63,14 @@ _./src/index.ts_
 import * as d3 from "d3";
 import { resultCollectionSpainNov19 } from "./data";
 
-const svgDimensions = { width: 500, height: 500 };
+const svgDimensions = { width: 800, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
 const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top
 };
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
-  (max, item) => (item.seats > max ? item.seats : max),
+const totalNumberSeats = resultCollectionSpainNov19.reduce(
+  (sum, item) => sum + item.seats,
   0
 );
 const politicalPartiesCount = resultCollectionSpainNov19.length;
@@ -76,7 +81,7 @@ const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
 );
 
 const partiesColorScale = d3
-  .scaleOrdinal(politicalParties)
+  .scaleOrdinal(politicalPartiesKeys)
   .range([
     "#ED1D25",
     "#0056A8",
@@ -116,7 +121,7 @@ const chartGroup = svg
 ```typescript
 const xScale = d3
   .scaleLinear()
-  .domain([0, maxNumberSeats])
+  .domain([0, totalNumberSeats])
   .range([0, chartDimensions.width]);
 ```
 
