@@ -1,13 +1,14 @@
 # Single bar + Layout
 
-TODO: better solution
-https://stackoverflow.com/questions/49917244/single-horizontal-stacked-bar
+In the previous example we create a single stacked bar chart.
 
-So the boss was not happy with a Barchart, we must choose a chart type where
-is easier to check the relative weight of each political party compared with
-the total of seats available.
+We just used a variable to store the previous position. But... Is there any
+standard way of doing somethin like that, what if I have to hop in into
+more complex scenarios like showing a stack bar chart comparing several
+years election results? .... StackLayout to the rescue.
 
-Maybe a chart like this could help:
+We are going to recreate the same chart as in the previous sample but
+using d3js stack layout:
 
 Let's give a try.
 
@@ -49,6 +50,8 @@ _./src/index.ts_
 - Let's add all the settings. IMPORTANT this time the height will be fixed (we will
   name that const **barHeight** and the width will be dynamic).
 
+> As an enhancemente this time we will take the keys from the data arraty.
+
 _./src/index.ts_
 
 ```typescript
@@ -68,22 +71,9 @@ const maxNumberSeats = resultCollectionSpainNov19.reduce(
 const politicalPartiesCount = resultCollectionSpainNov19.length;
 const barHeight = 200;
 
-const politicalParties = [
-  "PSOE",
-  "PP",
-  "VOX",
-  "UP",
-  "ERC",
-  "Cs",
-  "JxCat",
-  "PNV",
-  "Bildu",
-  "Más pais",
-  "CUP",
-  "CC",
-  "BNG",
-  "Teruel Existe"
-];
+const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
+  item => item.party
+);
 
 const partiesColorScale = d3
   .scaleOrdinal(politicalParties)
@@ -124,33 +114,103 @@ const chartGroup = svg
   let's calcualte the XScale (seats to pixels).
 
 ```typescript
-const yScale = d3
+const xScale = d3
   .scaleLinear()
   .domain([0, maxNumberSeats])
   .range([0, chartDimensions.width]);
 ```
 
-- Let's add the rectangles, this time, we will calculate the width dinamically and
-  the height will be fixed.
+- Since we are going to use the stack layout, we have to "massage" the data
+  and transform it, it will expect something like:
+
+**Do not copy paste this**
+
+```json
+[
+  {
+    PSOE: 120,
+    PP: 88,
+    VOX: 52
+    ...
+  }
+]
+```
+
+> In a stacked bar chart, we would have more bars in this case we will represent a single on.
+
+Let's add the code that will let us transform the data:
 
 ```typescript
-let currentXPosition = 0;
+// Since we are going to use stack layout
+// We are going to format the data in the following format
+// {
+//   PSOE: 120,
+//   PP: 88,
+//   VOX: 52
+//   ...
+// }
+// This will represent a serie for a single entry (in this
+// case we are handling a single bar, an example of multiple
+// bar would be showing result elections of several years)
+const singleElectionResult = resultCollectionSpainNov19.reduce(
+  (total, item) => ({
+    ...total,
+    [item.party]: item.seats
+  }),
+  { id: 0 }
+);
 
+// Stack Layout will expect an array of objects
+// In this case we are going to display only one bar
+// we just wrap it in an array
+const data = [singleElectionResult];
+```
+
+- Now is time to make use of _d3js.stack_ layout (layout do not render data, they
+  are just preprocessor, prepare the data to be easily displayed in e.g. a stack like
+  layout, or a pie / arc like layout, etc...).
+
+```typescript
+// Let's create our stack layout
+// we are going to pass the keys (PSOE, PP, VOX, UP, Cs...)
+// to have them attached on every item
+const stack = d3.stack().keys(politicalPartiesKeys);
+
+// Now we get the data formatted in the follwing way:
+//[
+//  [[0,120]] // PSOE entry (seats), starts on 0 ends on 120
+//  [[120,208]] // PP entry (88), but starts on previous items 120 (PSOE)
+//  [[208, 260]] // VOX Entry
+//]
+const series = stack(data);
+```
+
+- Now is time to render the chart.
+
+```typescript
 chartGroup
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(series)
   .enter()
   .append("rect")
-  .attr("width", d => yScale(d.seats))
+  .attr("width", d => {
+    // To get the width of the current item we have to substract
+    // the final stack value - the initial stack value
+    return xScale(d[0][1] - d[0][0]);
+  })
   .attr("height", barHeight)
   .attr("x", (d, i) => {
-    return;
+    // We take as starting point the first coordinate
+    // e.g. PP 120, 208 -> we start at 120 (where PSOE ended, and on the width param sum up that value)
+    return xScale(d[0][0]);
   })
   .attr("y", d => chartDimensions.height - barHeight)
-  .attr("fill", d => partiesColorScale(d.party));
+  .attr("fill", (d, i) => partiesColorScale(d.key));
 ```
 
 # Excercise
+
+Same as in previous example (just in case you didn't implement it)
 
 Couldn't it be cool to add an indicator showing how many seat are needed to
 get overall majority? Something like:

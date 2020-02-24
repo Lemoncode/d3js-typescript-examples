@@ -15,7 +15,6 @@ const totalNumberSeats = resultCollectionSpainNov19.reduce(
 const politicalPartiesCount = resultCollectionSpainNov19.length;
 const barHeight = 100;
 
-// We could extract the political parties from the data
 const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
   item => item.party
 );
