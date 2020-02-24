@@ -131,7 +131,10 @@ const yScale = d3
 ```
 
 - Let's add the rectangles, this time, we will calculate the width dinamically and
-  the height will be fixed.
+  the height will be fixed. We have one challenge here... each bar (PSOE, PP, ...)
+  has to start when the previous one finished, in order to solve this we are going
+  to use an accumulator (in the next example we will learn how to solve
+  this using a layout)
 
 ```typescript
 let currentXPosition = 0;
@@ -144,7 +147,9 @@ chartGroup
   .attr("width", d => yScale(d.seats))
   .attr("height", barHeight)
   .attr("x", (d, i) => {
-    return;
+    const position = currentXPosition;
+    currentXPosition += xScale(d.seats);
+    return position;
   })
   .attr("y", d => chartDimensions.height - barHeight)
   .attr("fill", d => partiesColorScale(d.party));
