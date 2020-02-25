@@ -18,6 +18,25 @@ const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
   item => item.party
 );
 
+const partiesColor = [
+  "#ED1D25",
+  "#0056A8",
+  "#5BC035",
+  "#6B2E68",
+  "#F3B219",
+  "#FA5000",
+  "#C50048",
+  "#029626",
+  "#A3C940",
+  "#0DDEC5",
+  "#FFF203",
+  "#FFDB1B",
+  "#E61C13",
+  "#73B1E6",
+  "#BECD48",
+  "#017252"
+];
+
 const partiesColorScale = d3
   .scaleOrdinal(politicalPartiesKeys)
   .range([
@@ -56,30 +75,27 @@ const radius = Math.min(chartDimensions.width, chartDimensions.height) / 2;
 
 chartGroup.attr("transform", `translate(${radius},${radius})`);
 
-var arc = d3
+const arc = d3
   .arc()
   .innerRadius(79) // TODO Calculate this?
   .outerRadius(radius);
 
-const pie = d3
-  .pie()
+const pieChart = d3
+  .pie<number>()
   .startAngle(-90 * (Math.PI / 180))
-  .endAngle(90 * (Math.PI / 180))
-  .value(d => d.value);
+  .endAngle(90 * (Math.PI / 180));
+
+const politicalResultsOnlyNumbers: number[] = resultCollectionSpainNov19.map(
+  result => result.seats
+);
+const pie = pieChart(politicalResultsOnlyNumbers);
 
 const arcs = chartGroup
-  .selectAll("g.slice")
+  .selectAll("slice")
   .data(pie)
-  .enter()
-  .append("g"); // Create a group to hoild each slice (we can have path and text if needed)
+  .enter();
 
 arcs
   .append("path")
-  .attr("fill", (d, i) => partiesColorScale(d.party)) // TODO color ordinal
-  .attr("transform", d => {
-    // we have to make sure to set these before calling arc.centroid
-    d.innerRadius = 0;
-    d.outerRadius = radius;
-
-    return `translate(${arc.centroid(d.seats)}`;
-  });
+  .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
+  .attr("fill", (d, i) => partiesColor[i]); // TODO color ordinal
