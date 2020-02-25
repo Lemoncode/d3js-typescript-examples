@@ -56,7 +56,7 @@ chartGroup.attr("transform", `translate(${radius},${radius})`);
 
 const arc = d3
   .arc()
-  .innerRadius(79) // TODO Calculate this?
+  .innerRadius(radius / 1.7) // We want to have an arc with a propotional width
   .outerRadius(radius);
 
 const pieChart = d3

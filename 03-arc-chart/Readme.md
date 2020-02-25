@@ -5,6 +5,10 @@ to display the bar as a semi arch.
 
 Something like:
 
+![semi arc chart](./content/chart.png "semi arc chart")
+
+Live demo: [codesandbox](https://codesandbox.io/s/snowy-firefly-nd71d)
+
 Well... since we have learn to use layouts, this time we will make use of the _pieChartLayout_, the good thing
 of layouts is that you can easily preprocess the data the way you need it to display a customized chart
 (instead of a pie, it will be a ring chart + semi arch).
@@ -119,9 +123,9 @@ chartGroup.attr("transform", `translate(${radius},${radius})`);
 - Now we want to create a ring (doughnut), it will have an _innerRadius_ and _outerRadius_.
 
 ```typescript
-var arc = d3.svg
+const arc = d3
   .arc()
-  .innerRadius(79)
+  .innerRadius(radius / 1.7) // We want to have an arc with a propotional width
   .outerRadius(radius);
 ```
 
@@ -129,11 +133,10 @@ var arc = d3.svg
   based on the values (and base on a half pie shape).
 
 ```typescript
-const pie = d3.layout
+const pieChart = d3
   .pie()
   .startAngle(-90 * (Math.PI / 180))
-  .endAngle(90 * (Math.PI / 180))
-  .value(d => d.seats);
+  .endAngle(90 * (Math.PI / 180));
 ```
 
 - For the sake of simplicity we are gong to pass jut the seats value to the pie layout:
