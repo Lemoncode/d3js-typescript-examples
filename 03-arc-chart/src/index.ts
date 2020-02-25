@@ -37,27 +37,6 @@ const partiesColor = [
   "#017252"
 ];
 
-const partiesColorScale = d3
-  .scaleOrdinal(politicalPartiesKeys)
-  .range([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-    "#BECD48",
-    "#017252"
-  ]);
-
 const svg = d3
   .select("body")
   .append("svg")
@@ -81,13 +60,14 @@ const arc = d3
   .outerRadius(radius);
 
 const pieChart = d3
-  .pie<number>()
+  .pie()
   .startAngle(-90 * (Math.PI / 180))
   .endAngle(90 * (Math.PI / 180));
 
 const politicalResultsOnlyNumbers: number[] = resultCollectionSpainNov19.map(
   result => result.seats
 );
+
 const pie = pieChart(politicalResultsOnlyNumbers);
 
 const arcs = chartGroup

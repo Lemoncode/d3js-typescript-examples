@@ -71,26 +71,24 @@ const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
   item => item.party
 );
 
-const partiesColorScale = d3
-  .scaleOrdinal(politicalPartiesKeys)
-  .range([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-    "#BECD48",
-    "#017252"
-  ]);
+const partiesColor = [
+  "#ED1D25",
+  "#0056A8",
+  "#5BC035",
+  "#6B2E68",
+  "#F3B219",
+  "#FA5000",
+  "#C50048",
+  "#029626",
+  "#A3C940",
+  "#0DDEC5",
+  "#FFF203",
+  "#FFDB1B",
+  "#E61C13",
+  "#73B1E6",
+  "#BECD48",
+  "#017252"
+];
 
 const svg = d3
   .select("body")
@@ -118,7 +116,7 @@ const radius = Math.min(chartDimensions.width, chartDimensions.height) / 2;
 chartGroup.attr("transform", `translate(${radius},${radius})`);
 ```
 
-- Now we want to create a rign (doughnut), it will have an _innerRadius_ and _outerRadius_.
+- Now we want to create a ring (doughnut), it will have an _innerRadius_ and _outerRadius_.
 
 ```typescript
 var arc = d3.svg
@@ -138,25 +136,32 @@ const pie = d3.layout
   .value(d => d.seats);
 ```
 
+- For the sake of simplicity we are gong to pass jut the seats value to the pie layout:
+
+```typescript
+const politicalResultsOnlyNumbers: number[] = resultCollectionSpainNov19.map(
+  result => result.seats
+);
+```
+
+- Let's setup our pie chart layout and get the array of arcs:
+
+```typescript
+const pie = pieChart(politicalResultsOnlyNumbers);
+```
+
 - Now it's time to start rendering our chart:
 
 ```typescript
 const arcs = chartGroup
-  .selectAll("g.slice")
+  .selectAll("slice")
   .data(pie)
-  .enter()
-  .append("g"); // Create a group to hoild each slice (we can have path and text if needed)
+  .enter();
 
 arcs
   .append("path")
-  .attr("fill", (d, i) => partiesColorScale(d.party)) // TODO color ordinal
-  .attr("transform", d => {
-    // we have to make sure to set these before calling arc.centroid
-    d.innerRadius = 0;
-    d.outerRadius = radius;
-
-    return `translate(${arc.centroid(d.seats)}`;
-  });
+  .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
+  .attr("fill", (d, i) => partiesColor[i]); // TODO color ordinal
 ```
 
 # Additional resources
