@@ -55,7 +55,17 @@ const legendGroup = svg
 legendGroup.call(legendOrdinal);
 ```
 
-# Additional resources
+# Excercise
+
+A) We have shown a legend where all elements are in single columns, what if we want to split them in two columns?
+
+- We could use two legends objects and split the colors / domain.
+- We could play creating our custom legend.
+
+Tips: https://stackoverflow.com/questions/51520596/spread-d3-js-legend-on-two-columns/51524137
+Tips: http://jsfiddle.net/v7mkg/1/
+
+B) Play a bit... add a rectangle, interact when clicking on a given arc (e.g. display tooltip)...
 
 # About Basefactor + Lemoncode
 
