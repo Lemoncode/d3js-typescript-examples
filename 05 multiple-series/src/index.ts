@@ -17,8 +17,6 @@ const totalNumberSeats = resultCollectionSpainNov19.reduce(
   (sum, item) => sum + item.seats,
   0
 );
-const politicalPartiesCount = resultCollectionSpainNov19.length;
-const barHeight = 200;
 
 const politicalPartiesKeys: string[] = [
   "PSOE",
@@ -130,9 +128,9 @@ document
   });
 
 // Smoother Transition: https://bl.ocks.org/tezzutezzu/c2653d42ffb4ecc01ffe2d6c97b2ee5e
+// Version 1
 const updateChart = (data: ResultEntry[]) => {
   let path = svg.selectAll("path");
-  const data0 = path.data();
   const data1 = pieChart(<any>data);
 
   path = path.data(data1);
@@ -140,7 +138,6 @@ const updateChart = (data: ResultEntry[]) => {
   d3.selectAll("path")
     .data(pieChart(<any>data))
     .transition()
-    .duration(1000)
+    .duration(500)
     .attr("d", <any>arc);
-
 };
