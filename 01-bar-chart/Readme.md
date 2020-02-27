@@ -79,7 +79,7 @@ svg
 > In d3js when we talk about **data** we are talking about an array of items, when we talk about
 > **datum** we are reffering to a single item.
 
-- Since it's all the data that we are going to introduce is fresh (we are not updating the chart just appending
+- Since all the data that we are going to introduce is fresh (we are not updating the chart just appending
   all the new data), we tell them that we go into "enter" mode (if you need to "update" existing data you would
   enter in "update" mode, if you want to delete data you would enter in "exit" mode).
 
@@ -106,7 +106,7 @@ svg
 - If we run the sample we will see that a single ugly black rectangle is shown, why? because
   we are creating a fix width rectangle per item in the same X position. Let's add some
   offset to each of the bar charts. In this case on the _x_ attribute we get a function
-  that contain the current enty information (datum party/seats), and the position (index)
+  that contain the current entry information (datum party/seats), and the position (index)
   in the array of data.
 
 ```diff
@@ -123,9 +123,8 @@ svg
 
 - Now we got something more interesting, a flipped barchart. Why the Barchart is shown top to bottom?
   That's because the coordinate origin starts in (0,0), we should tell d3 to start the rectangle in a
-  bottom coordinate, right now we will enter a harcoded number offset number and substract the seats
-  position, in the next step we will fix this by
-  introducing scales.
+  bottom coordinate, right now we will enter a harcoded offset number and substract the seats
+  position, in the next step we will fix this by introducing scales.
 
 ```diff
 svg
@@ -145,7 +144,7 @@ svg
   pixels to display this :), is time to learn about how to scale values, in this case:
   - We know that the number of seats available is 350 (if we don't know that value, we can just calculate
     it iterating over the data entry array) .
-  - We know that we got available 300 pixels of height space.
+  - We know that we got available 500 pixels of height space.
   - d3js offers us several scaling helpers, we are going to use _scaleLinear_ maps from vaues to pixels
 
 ```diff
@@ -170,18 +169,18 @@ svg
 -  .attr("height", d => d.seats)
 +  .attr("height", d => yScale(d.seats))
   .attr("x", (d, i) => i * 60)
--  .attr("y", d => 200 - d.seats);
+-  .attr("y", d => 490 - d.seats);
 +  .attr("y", d => 490 - yScale(d.seats));
 ```
 
 - Adding magic harcoded numbers can be a bit dangerous, e.g. if you decide to change the height of your canvas, or add different margin everyting can be screwn up.
-  let's refactor this a bit and add some variables to control all this:
-
+Let's refactor this a bit and add some variables to control all this:
+_./src/index.ts_
 ```diff
 +  const svgDimensions = {width: 500, height: 500}
 +  const margin = { left: 5, right: 5, top: 10, bottom: 10 };
 +  const chartDimensions = {
-+    width: svgDimensions.width - margin.left - margin.right,,
++    width: svgDimensions.width - margin.left - margin.right,
 +    height: svgDimensions.height - margin.bottom - margin.top
 +  };
 +  const maxNumberSeats = resultCollectionSpainNov19.reduce((max, item) => (item.seats > max) ?
@@ -228,7 +227,7 @@ const yScale = d3
 
 - And start our chart under that group.
 
-- And remove the harcoded values on the chart rendering it self (y axis):
+- And remove the harcoded values on the chart rendering itself (y axis):
 
 ```diff
 - svg
@@ -261,9 +260,6 @@ const maxNumberSeats = resultCollectionSpainNov19.reduce(
   0
 );
 + const politicalPartiesCount = resultCollectionSpainNov19.length;
-```
-
-```diff
 + const barPadding = 5; // We could calculate this value as well
 + const barWidth =
 +  (chartDimensions.width - barPadding * politicalPartiesCount) /
@@ -273,9 +269,7 @@ const yScale = d3
   .scaleLinear()
   .domain([0, maxNumberSeats])
   .range([0, chartDimensions.height]);
-```
 
-```diff
 chartGroup
   .selectAll("rect")
   .data(resultCollectionSpainNov19)
@@ -291,7 +285,7 @@ chartGroup
 ```
 
 - Now let's give some color to this chart, we can setup a wide range of color scales,
-  e.g. based on value ranges or based on ordinal values, etc...
+  e.g. based on value ranges or based on ordinal values, or...
 
 - In this case we will create a discrete color palette based on the political parties:
 
@@ -376,8 +370,7 @@ const partiesColorScale = d3
 - We feel proud about this chart, we could now add a legend, x/y axis... but we will
   stop by now:
   - We could used a histogram layout to create this and save some time.
-  - If we talk to our boss (we are simulating that we are working on a news paper),
-    he would say this is not the type of chart optimal to display election results (crap !).
+  - If we talk to our boss (remember that we are simulating that we are working on a newspaper), he would say this is not the type of chart optimal to display election results (crap !).
 
 In the next example we will create an horizontal rectangle showing a segment.
 
@@ -422,7 +415,7 @@ const generateBarChart = (
 ```
 
 Whole refactored file:
-
+_./src/index.ts_
 ```typescript
 import * as d3 from "d3";
 import { resultCollectionSpainNov19, ResultEntry } from "./data";
@@ -529,7 +522,7 @@ const chartGroup = createChartGroup();
 generateBarChart(chartGroup);
 ```
 
-Some links about better coding d3js:
+Here it goes a link about better coding d3js:
 
 https://bost.ocks.org/mike/chart/
 
