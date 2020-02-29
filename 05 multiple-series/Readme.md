@@ -1,71 +1,155 @@
-# Pimp Chart
+# Multiple Series
 
-"You nailed it!" the boss said, that's great, buuuuut... he asked as well if
-we can just pimp a bit the chart, it is going to be published on an online
-newspaper and it needs some details like add a legend to the chart...
+One more request from your boss... _Hey ! I want to be able to compare results with the previous elections ones, just by clicking on a
+button swap values and btw. I would like to show some transition when swapping data sets_
 
 Something like:
 
-![pimped chart](./content/chart.png "pimped chart")
+TODO: Gif Recorder
+
+![animated series](./content/chart.gif "animated series")
 
 Live demo: [codesandbox]()
 
 # Steps
 
-- We will take as starting sample _02B-single-bar-stack-layout_.
+- We will take as starting sample _04-pimp-chart_.
 
-- Let's copy the content from _02B-single-bar-stack-layout_ and execute _npm install_
+- Let's copy the content from _04-pimp-chart_ and execute _npm install_
 
 ```bash
 npm install
 ```
 
-- Let's install _d3-svg-legend_
+- Let's add two buttons in the _index.html_ file:
 
-```bash
-npm i d3-svg-legend -S
+```diff
+  <body>
++    <div>
++      <button id="april">Results April</button>
++      <button id="november">Results November</button>
++    </div>
+    <script src="./index.ts"></script>
+  </body>
 ```
 
--
+- Let's import April's result:
 
 ```diff
 import * as d3 from "d3";
-import { resultCollectionSpainNov19 } from "./data";
-+ import {legendColor} from 'd3-svg-legend'
+import {
+  resultCollectionSpainNov19,
++  resultCollectionSpainApr19,
+  ResultEntry
+} from "./data";
 ```
 
-- Now let's create and ordinal scale color,map it to a legend object and add it in a group below the semi arch chart.
+- In April's election there's a political party that is not in novembers election, we need to include all parties:
+
+```diff
+- const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
+-  item => item.party
+- );
+
++ const politicalPartiesKeys: string[] = [
++  "PSOE",
++  "PP",
++  "VOX",
++  "UP",
++  "ERC",
++  "Cs",
++  "JxCat",
++  "PNV",
++  "Bildu",
++  "Más pais",
++  "CUP",
++  "CC",
++  "BNG",
++  "Teruel Existe",
++  "Compromis"
++ ];
+```
+
+- Let's add one more color for that pary
+
+```diff
+const partiesColor = [
+  "#ED1D25",
+  "#0056A8",
+  "#5BC035",
+  "#6B2E68",
+  "#F3B219",
+  "#FA5000",
+  "#C50048",
+  "#029626",
+  "#A3C940",
+  "#0DDEC5",
+  "#FFF203",
+  "#FFDB1B",
+  "#E61C13",
+  "#73B1E6",
+  "#BECD48",
+  "#017252",
++  "#DD0000"
+];
+```
+
+- Let's add a method to swap the data we are using (e.g. swap november results with april results):
 
 ```typescript
-// Legend
-var ordinal = d3
-  .scaleOrdinal()
-  .domain(politicalPartiesKeys)
-  .range(partiesColor);
-
-var legendOrdinal = legendColor().scale(ordinal);
-
-const legendLeft = margin.left;
-const legendTop = radius + 5;
-
-const legendGroup = svg
-  .append("g")
-  .attr("transform", `translate(${legendLeft},${legendTop})`);
-
-legendGroup.call(legendOrdinal);
+const updateChart = (data: ResultEntry[]) => {
+  d3.selectAll("path")
+    .data(pieChart(<any>data))
+    .transition()
+    .duration(500)
+    .attr("d", <any>arc);
+};
 ```
+
+- And now call them on each button with the corresponding data:
+
+```typescript
+document
+  .getElementById("april")
+  .addEventListener("click", function handleResultsApril() {
+    updateChart(resultCollectionSpainApr19);
+  });
+
+document
+  .getElementById("november")
+  .addEventListener("click", function handleResultsNovember() {
+    updateChart(resultCollectionSpainNov19);
+  });
+```
+
+- Let's give a try... we got an animation but a bit strange, how to make it smoother? remove the sorting:
+
+```diff
+const pieChart = d3
+  .pie()
+  .startAngle(-90 * (Math.PI / 180))
+  .endAngle(90 * (Math.PI / 180))
+  .value(d => d["seats"])
++  .sort(null);
+```
+
+- Now looks better, it still not perfect you can work it out to get it perfect by following this example: https://bl.ocks.org/tezzutezzu/c2653d42ffb4ecc01ffe2d6c97b2ee5e
 
 # Excercise
 
-A) We have shown a legend where all elements are in single columns, what if we want to split them in two columns?
+Let's implemnent a "pactometer", just only for the current November election process, add a checkbox per political party, the users can check which parties reach an agreement and
+check if the get absolute parliamentary majority.
 
-- We could use two legends objects and split the colors / domain.
-- We could play creating our custom legend.
+Tips:
 
-Tips: https://stackoverflow.com/questions/51520596/spread-d3-js-legend-on-two-columns/51524137
-Tips: http://jsfiddle.net/v7mkg/1/
-
-B) Play a bit... add a rectangle, interact when clicking on a given arc (e.g. display tooltip)...
+- Add manual checkbox.
+- Start by creating two keys: Pact, Others.
+- Sum up Pact, Sum up others.
+- Display the semi arch chart.
+- Now let's go one step forward:
+  - Keep all the parties in the pact (all the keys).
+  - Create a key call others (gray color) where you sum up all the other seats.
+- Display the semi arch chart.
 
 # About Basefactor + Lemoncode
 

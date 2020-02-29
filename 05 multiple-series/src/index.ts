@@ -115,6 +115,8 @@ const legendGroup = svg
 
 legendGroup.call(legendOrdinal);
 
+// Buttons and changing data series
+
 document
   .getElementById("april")
   .addEventListener("click", function handleResultsApril() {
@@ -130,11 +132,6 @@ document
 // Smoother Transition: https://bl.ocks.org/tezzutezzu/c2653d42ffb4ecc01ffe2d6c97b2ee5e
 // Version 1
 const updateChart = (data: ResultEntry[]) => {
-  let path = svg.selectAll("path");
-  const data1 = pieChart(<any>data);
-
-  path = path.data(data1);
-
   d3.selectAll("path")
     .data(pieChart(<any>data))
     .transition()
