@@ -14,7 +14,7 @@ Let's give a try.
 
 # Steps
 
-- We will start from scratch, but will be reuse a lot of code from 01-bar-chart
+- We will start from scratch, but will be reuseing a lot of code from 01-bar-chart
   (in a real world scenario it would be enough to refactor the previous example
   but for the sake of clarity we will go step by step).
 
