@@ -13,7 +13,6 @@ const totalNumberSeats = resultCollectionSpainNov19.reduce(
   0
 );
 
-const politicalPartiesCount = resultCollectionSpainNov19.length;
 const barHeight = 100;
 
 const politicalParties = [
