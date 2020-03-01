@@ -73,7 +73,7 @@ const totalNumberSeats = resultCollectionSpainNov19.reduce(
   (sum, item) => sum + item.seats,
   0
 );
-const politicalPartiesCount = resultCollectionSpainNov19.length;
+
 const barHeight = 200;
 
 const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
