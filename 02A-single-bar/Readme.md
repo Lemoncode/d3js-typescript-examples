@@ -157,6 +157,11 @@ chartGroup
   .attr("y", d => chartDimensions.height - barHeight)
   .attr("fill", d => partiesColorScale(d.party));
 ```
+- Let's run this code now
+
+```bash
+npm start
+```
 
 # Excercise
 
