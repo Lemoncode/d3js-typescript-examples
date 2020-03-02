@@ -8,13 +8,13 @@ Something like:
 
 ![pimped chart](./content/chart.png "pimped chart")
 
-Live demo: [codesandbox]()
+Live demo: [codesandbox](https://codesandbox.io/s/fervent-lumiere-8w12q)
 
 # Steps
 
-- We will take as starting sample _02B-single-bar-stack-layout_.
+- We will take as starting sample _03-arc-chart_.
 
-- Let's copy the content from _02B-single-bar-stack-layout_ and execute _npm install_
+- Let's copy the content from _03-arc-chart_ and execute _npm install_
 
 ```bash
 npm install
@@ -26,15 +26,19 @@ npm install
 npm i d3-svg-legend -S
 ```
 
--
+- Let's import this legend in our _index.ts_ file.
+
+_./src/index.ts_
 
 ```diff
 import * as d3 from "d3";
 import { resultCollectionSpainNov19 } from "./data";
-+ import {legendColor} from 'd3-svg-legend'
++ import {legendColor} from 'd3-svg-legend';
 ```
 
 - Now let's create and ordinal scale color,map it to a legend object and add it in a group below the semi arch chart.
+
+_./src/index.ts_
 
 ```typescript
 // Legend
