@@ -4,10 +4,12 @@ Learn d3js by doing, set of step by step guided examples built using
 **d3js** + **typescript**.
 
 In this guide we are taking the role of a d3js NOOB that has started
-working for a local newspaper, he get assign the task of generating a
+working for a local newspaper, he gets a task assignment: generating a
 chart to display the national elections results, he will try several
-type of charts until he just able to generate something his boss is happy
+type of charts until he is able to generate something his boss is happy
 with, final result:
+
+![animated series](./05-multiple-series/content/chart.gif "animated series")
 
 In between steps:
 
@@ -16,8 +18,7 @@ In between steps:
 - Pie chart.
 - Semi arch chart.
 
-Each example contains a _Readme.md_ files that includes ant step by step guide
-to reproduce the examples from stratch.
+Each example contains a step by step guide to reproduce the examples from stratch (_Readme.md_).
 
 # About Basefactor + Lemoncode
 
