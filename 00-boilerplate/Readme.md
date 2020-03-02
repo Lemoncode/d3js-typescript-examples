@@ -61,7 +61,8 @@ _./tsconfig.json_
     "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": "./src/"
-  }
+  },
+  "include": ["./src/**/*"]
 }
 ```
 
@@ -90,8 +91,9 @@ npm install d3 --save
 ```bash
 npm install @types/d3 --save
 ```
-
-- Let's add some CSS reset
+- Create a _./src_ folder
+- Create a new file _./src/base.css_
+- Let's add some CSS
 
 ```css
 /*
@@ -270,7 +272,8 @@ table {
 }
 body {
   background: none repeat scroll 0% 0% rgb(255, 255, 255);
-  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-size: 13px;
   color: #3b3b3b;
 }
@@ -388,7 +391,7 @@ fieldset {
 }
 ```
 
-- Let's create a main index.html under src folder
+- Let's also create a main _index.html_ under _./src_ folder
 
 _./src/index.html_
 
@@ -403,21 +406,31 @@ _./src/index.html_
 </html>
 ```
 
-- Let's create a index.ts file under src folder and add some basic d3js content to check that everything is working fine
+- Let's create a _index.ts_ file under _./src_ folder and add some basic d3js content to check that everything is working fine
 
 _./src/index.ts_
 
 ```typescript
 import * as d3 from "d3";
 
-d3.select("body")
+const svg = d3
+  .select("body")
   .append("svg")
   .attr("width", 500)
-  .attr("height", 500)
+  .attr("height", 500);
+
+svg
   .append("text")
   .attr("x", 100)
   .attr("y", 100)
-  .attr("text", "Hello d3js");
+  .text("Hello d3js");
+
+svg
+  .append("circle")
+  .attr("r", 20)
+  .attr("cx", 20)
+  .attr("cy", 20);
+
 ```
 
 - Let's run the example

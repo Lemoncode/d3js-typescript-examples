@@ -18,7 +18,7 @@ Let's give a try.
 
 # Steps
 
-- We will start from scratch, but will be reuse a lot of code from 01-bar-chart
+- We will start from scratch, but will be reusing a lot of code from 01-bar-chart
   (in a real world scenario it would be enough to refactor the previous example
   but for the sake of clarity we will go step by step).
 
@@ -51,11 +51,11 @@ _./src/index.ts_
 -  .attr("cy", 20);
 ```
 
-- Let's add all the settings. IMPORTANT this time the height will be fixed (we will
-  name that const **barHeight** and the width will be dynamic).
+- Let's add all the settings. IMPORTANT this time the _height_ will be fixed (we will
+  name that const **barHeight** and the _width_ will be dynamic).
 
 > As an enhancemente this time we will take the keys from the data array, and
-> we will increase the with of the chart to 800 pixels.
+> we will increase the _with_ of the chart to 800 pixels.
 
 _./src/index.ts_
 
@@ -73,7 +73,7 @@ const totalNumberSeats = resultCollectionSpainNov19.reduce(
   (sum, item) => sum + item.seats,
   0
 );
-const politicalPartiesCount = resultCollectionSpainNov19.length;
+
 const barHeight = 200;
 
 const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
@@ -211,6 +211,11 @@ chartGroup
   })
   .attr("y", d => chartDimensions.height - barHeight)
   .attr("fill", (d, i) => partiesColorScale(d.key));
+```
+- Let's run this code now
+
+```bash
+npm start
 ```
 
 # Excercise

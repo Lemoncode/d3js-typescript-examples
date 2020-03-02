@@ -64,16 +64,6 @@ const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top
 };
-const totalNumberSeats = resultCollectionSpainNov19.reduce(
-  (sum, item) => sum + item.seats,
-  0
-);
-const politicalPartiesCount = resultCollectionSpainNov19.length;
-const barHeight = 200;
-
-const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
-  item => item.party
-);
 
 const partiesColor = [
   "#ED1D25",
@@ -139,7 +129,7 @@ const pieChart = d3
   .endAngle(90 * (Math.PI / 180));
 ```
 
-- For the sake of simplicity we are gong to pass jut the seats value to the pie layout:
+- For the sake of simplicity we are gong to pass just the seats values to the pie layout:
 
 ```typescript
 const politicalResultsOnlyNumbers: number[] = resultCollectionSpainNov19.map(
@@ -165,6 +155,12 @@ arcs
   .append("path")
   .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
   .attr("fill", (d, i) => partiesColor[i]); // TODO color ordinal
+```
+
+- Let's run this code now
+
+```bash
+npm start
 ```
 
 # Additional resources

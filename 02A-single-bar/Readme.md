@@ -14,7 +14,7 @@ Let's give a try.
 
 # Steps
 
-- We will start from scratch, but will be reuse a lot of code from 01-bar-chart
+- We will start from scratch, but will be reuseing a lot of code from 01-bar-chart
   (in a real world scenario it would be enough to refactor the previous example
   but for the sake of clarity we will go step by step).
 
@@ -68,7 +68,6 @@ const totalNumberSeats = resultCollectionSpainNov19.reduce(
   0
 );
 
-const politicalPartiesCount = resultCollectionSpainNov19.length;
 const barHeight = 200;
 
 const politicalParties = [
@@ -156,6 +155,11 @@ chartGroup
   })
   .attr("y", d => chartDimensions.height - barHeight)
   .attr("fill", d => partiesColorScale(d.party));
+```
+- Let's run this code now
+
+```bash
+npm start
 ```
 
 # Excercise
