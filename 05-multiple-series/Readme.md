@@ -5,11 +5,9 @@ button swap values and btw. I would like to show some transition when swapping d
 
 Something like:
 
-TODO: Gif Recorder
-
 ![animated series](./content/chart.gif "animated series")
 
-Live demo: [codesandbox]()
+Live demo: [codesandbox](https://codesandbox.io/s/frosty-waterfall-j47s5)
 
 # Steps
 
@@ -23,6 +21,8 @@ npm install
 
 - Let's add two buttons in the _index.html_ file:
 
+_./src/index.html_
+
 ```diff
   <body>
 +    <div>
@@ -33,13 +33,14 @@ npm install
   </body>
 ```
 
-- Let's import April's result:
+- Let's import April's result and _ResultEntry_ entity:
 
 ```diff
 import * as d3 from "d3";
 import {
   resultCollectionSpainNov19,
 +  resultCollectionSpainApr19,
++  ResultEntry
   ResultEntry
 } from "./data";
 ```
@@ -70,7 +71,7 @@ import {
 + ];
 ```
 
-- Let's add one more color for that pary
+- Let's add one more color for that party, and move up the ordinal scale (map parties to colors):
 
 ```diff
 const partiesColor = [
@@ -92,9 +93,48 @@ const partiesColor = [
   "#017252",
 +  "#DD0000"
 ];
+
++ var ordinal = d3
++  .scaleOrdinal()
++  .domain(politicalPartiesKeys)
++  .range(partiesColor);
 ```
 
-- Let's add a method to swap the data we are using (e.g. swap november results with april results):
+- Let's remove it from the legend
+
+```diff
+// Legend
+- var ordinal = d3
+-  .scaleOrdinal()
+-  .domain(politicalPartiesKeys)
+-  .range(partiesColor);
+```
+
+- Now we are going to use the whole entity instead of only values:
+
+```diff
+- const politicalResultsOnlyNumbers: number[] = resultCollectionSpainNov19.map(
+-  result => result.seats
+- );
+
+- const pie = pieChart(politicalResultsOnlyNumbers);
++ const pie = pieChart(<any>resultCollectionSpainNov19);
+```
+
+- On the piechart let's indicate the values fields to be measure (seats).
+
+```diff
+const pieChart = d3
+  .pie()
+  .startAngle(-90 * (Math.PI / 180))
+  .endAngle(90 * (Math.PI / 180))
++  .value(d => d["seats"])
+```
+
+- Let's add a method to swap the data we are using (e.g. swap november results with april results), 
+we will append all this code at the end of the index.ts file:
+
+_./src/index.ts_
 
 ```typescript
 const updateChart = (data: ResultEntry[]) => {
