@@ -9,7 +9,9 @@ chart to display the national elections results, he will try several
 type of charts until he is able to generate something his boss is happy
 with, final result:
 
-![animated series](./05-multiple-series/content/chart.gif "animated series")
+<p align="center">
+  <img src="./05-multiple-series/content/chart.gif" alt="animated series">
+</p>
 
 In between steps:
 
