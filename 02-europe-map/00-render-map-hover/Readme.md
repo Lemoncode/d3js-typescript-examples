@@ -1,442 +1,222 @@
-# Initial boiler plate
+# Rendering map
 
-This is just a simple boiler plate that will let us having a playground for our examples.
+Our boss now wants to display maps... nice let's start by displaying a map of Europe, we are going to implement the following
+features:
 
-Project setup:
-
-- Bundling: **Parcel**.
-- Language: **Typescript**.
-- Libraries imported: d3js (whole library, not using selective imports approach).
-
-This examples would work using any other bundler, e.g. **Webpack**, just chosen **Parcel** for the
-sake of simplicity.
-
-You will need to have installed an uptodate version of **nodejs** to run this example.
+- Proper display all the countries (right size, center...).
+- Highlight the country where the mouse is pointing to (mouse hover).
 
 # Steps
 
-Steps to recreate this example from scratch:
-
-- Initialize the project
+- We will take as starting example _00-boilerplate_, let's copy the content from that folder and execute _npm install_.
 
 ```bash
-npm init -y
+npm install
 ```
 
-- Install **Parcel**:
+- When you deal with maps you can use two map formats GeoJSON or TopoJSON, topo JSON is lightweight and offers some extra
+  features, let's install the needed package to work with:
 
 ```bash
-npm install parcel --save-dev
+npm install topojson-client --save
 ```
-
-- Install **rimraf** (to cleanup dist folder), and **npm-run-all** (to launch tasks in parallel).
 
 ```bash
-npm install rimraf npm-run-all --save-dev
+npm install @types/topojson-client --save-dev
 ```
 
-- Install **Typescript**:
+- Let's remove part of the boilerplate test code:
 
-```bash
-npm install typescript --save-dev
-```
-
-- Let's add a _tsconfig_ file.
-
-_./tsconfig.json_
-
-```json
-{
-  "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
-    "declaration": false,
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "jsx": "react",
-    "noLib": false,
-    "allowJs": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "baseUrl": "./src/"
-  },
-  "include": ["./src/**/*"]
-}
-```
-
-- Let's add a command in package.json to launch the application:
-
-_./package.json_
+_./index.ts_
 
 ```diff
-  "scripts": {
-+    "start": "run-p -l type-check:watch start:dev",
-+    "type-check": "tsc --noEmit",
-+    "type-check:watch": "npm run type-check -- --watch",
-+    "start:dev": "parcel ./src/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+- svg
+-  .append("text")
+-  .attr("x", 100)
+-  .attr("y", 100)
+-  .text("Hello d3js");
+
+-svg
+-  .append("circle")
+-  .attr("r", 20)
+-  .attr("cx", 20)
+-  .attr("cy", 20);
 ```
 
-- Install d3js:
+> More info about this format: https://umar-yusuf.blogspot.com/2018/07/difference-between-geojson-and-topojson.html
 
-```bash
-npm install d3 --save
-```
+- Let's change the size of the svg we are using and add some background color:
 
-- Install d3js typings:
-
-```bash
-npm install @types/d3 --save
-```
-- Create a _./src_ folder
-- Create a new file _./src/base.css_
-- Let's add some CSS
-
-```css
-/*
-	Theme Name: ReClean
-	Theme URI: http://www.codenx.com/
-	Theme Version: 1.0
-	Theme Date: 2013-03-12
-	Theme Author: CodeNx
-	Theme Author URI: http://www.codenx.com/
-	Theme License: GPLv2
-*/
-
-/*---[ Start: global css ]---*/
-
-/* Import Google Web Fonts
-@import url(http://fonts.googleapis.com/css?family=Maven+Pro:400);
--------------------------------------------------- @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
-*/
-/**
-    * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
-    * http://cssreset.com
-    */
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
-body {
-  line-height: 1;
-}
-ol,
-ul {
-  list-style: none;
-}
-blockquote,
-q {
-  quotes: none;
-}
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
-  content: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
-}
-.clearfix {
-  display: inline-table;
-}
-/* Hides from IE-mac \*/
-* html .clearfix {
-  height: 1%;
-}
-.clearfix {
-  display: block;
-}
-/* End hide from IE-mac */
-
-:-moz-placeholder {
-  color: #aaa !important;
-  font-style: italic;
-  line-height: 20px;
-}
-::-webkit-input-placeholder {
-  color: #aaa !important;
-  font-style: italic;
-  line-height: 20px;
-}
-body {
-  background: none repeat scroll 0% 0% rgb(255, 255, 255);
-  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-  font-size: 13px;
-  color: #3b3b3b;
-}
-.fl {
-  float: left;
-}
-.fr {
-  float: right;
-}
-h1 {
-  font-weight: 400;
-  line-height: 1.1em;
-  border-bottom: 1px dashed #0077bb;
-  position: relative;
-  padding: 14px 25px 5px 0;
-  font-size: 2.5em;
-  text-transform: uppercase;
-  line-height: 1.2em;
-  margin: 0.2em 0px 20px -2px;
-  color: rgb(0, 170, 238);
-  text-decoration: none;
-}
-h2 {
-  font-size: 16px;
-  color: #111;
-  padding: 5px 20px !important;
-  clear: both;
-  background: #eee;
-  font-weight: 700;
-}
-h3 {
-  margin: 0 0 10px 0;
-  color: #111;
-}
-blockquote {
-  background: #eee;
-  padding: 15px;
-  margin: 30px auto;
-  border: 1px solid #aaa;
-  font-size: 16px;
-  font-style: italic;
-  color: #000;
-  position: relative;
-}
-blockquote p {
-  margin: 0;
-  padding: 0;
-}
-img {
-  border: none;
-}
-ul.left {
-}
-
-ul.right {
-  text-align: right;
-}
-a:link,
-a:visited {
-  text-decoration: none;
-  color: #0077bb;
-}
-a:hover,
-a:active {
-  color: #0099cc;
-  text-decoration: underline;
-}
-button::-moz-focus-inner {
-  border: 0;
-  padding: 0;
-}
-form,
-fieldset {
-  padding: 0;
-  margin: 0;
-  border: none;
-}
-.header {
-  background-color: #fff;
-  height: 10%;
-}
-.header-wrapper {
-  width: 998px;
-  margin: 0 auto;
-  background-color: #fff;
-}
-.logo {
-  width: 200px;
-  margin-top: 10px;
-}
-.search {
-  margin-top: 10px;
-}
-.nav {
-  height: 10%;
-  background-color: #00aeec;
-}
-.nav-wrapper {
-  margin: 0 auto;
-  width: 998px;
-}
-.nav ul,
-.header ul,
-.sidebar ul {
-  list-style: none;
-  list-style-type: none;
-}
-.nav ul li,
-.header ul li {
-  display: inline;
-  padding: 0px 10px 0px 10px;
-}
-.nav ul li {
-  padding: 0 20px;
-}
-```
-
-- Let's also create a main _index.html_ under _./src_ folder
-
-_./src/index.html_
-
-```html
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="./base.css" />
-  </head>
-  <body>
-    <script src="./index.ts"></script>
-  </body>
-</html>
-```
-
-- Let's create a _index.ts_ file under _./src_ folder and add some basic d3js content to check that everything is working fine
-
-_./src/index.ts_
-
-```typescript
-import * as d3 from "d3";
-
+```diff
 const svg = d3
   .select("body")
   .append("svg")
-  .attr("width", 500)
-  .attr("height", 500);
-
-svg
-  .append("text")
-  .attr("x", 100)
-  .attr("y", 100)
-  .text("Hello d3js");
-
-svg
-  .append("circle")
-  .attr("r", 20)
-  .attr("cx", 20)
-  .attr("cy", 20);
-
++  .attr("width", 1024)
+-  .attr("width", 500)
++  .attr("height", 800)
+-  .attr("height", 500);
++  .attr("style", "background-color: #FBFAF0");
 ```
 
-- Let's run the example
+- Now we need the data (arcs) to draw an Europe map in topojson format, hopefully there are a lot of maps avaiable in this
+  format, we can get the info from this great open source project: https://github.com/deldersveld/topojson
+  we are going to copy to our local the following json file: https://github.com/deldersveld/topojson/blob/master/continents/europe.json
+
+Let's download and copy that file under the _src_ folder
+
+- We are going to include this file into the bundle and import it (another approach could load it from a remote location using _d3.json_).
+
+First we will install the _node_ typings to get _require_ typing.
+
+```bash
+npm install @types/node --save-dev
+```
+
+Then, let's import _topojson_ converter and we load the json map using _require_
+
+_./src/index.ts_
+
+```diff
+import * as d3 from "d3";
++ import * as topojson from "topojson-client";
++ const europejson  = require('./europe.json');
+```
+
+- Let's create our map.
+
+- first we will define the map projection that we want to use (geoMercator),
+
+_./src/index.ts_
+
+```diff
+const europeJson = require("./europe.json");
+
++ const aProjection = d3
++  .geoMercator()
+```
+
+> more about projections: https://d3-wiki.readthedocs.io/zh_CN/master/Geo-Projections/
+
+- Next step, let's specify to our geopath generator which project we are going to use:
+
+_./src/index.ts_
+
+```diff
+const aProjection = d3.geoMercator();
++   const geoPath = d3.geoPath().projection(aProjection);
+```
+
+- Now we need to convert from _topoJson_ to _geoJson_:
+
+```diff
+-   const geoPath = d3.geoPath().projection(aProjection);
++  const geojson = topojson.feature(
++    europejson,
++    europejson.objects.continent_Europe_subunits
++  );
+```
+
+- Time to draw our map, let's append this to our _index.ts_ file.
+
+```typescript
+svg
+  .selectAll("path")
+  .data(geojson["features"])
+  .enter()
+  .append("path")
+  // data loaded from json file
+  .attr("d", geoPath as any);
+```
+
+- Let's run the example:
 
 ```bash
 npm start
+```
+
+- Hey we got an small map displayed, let's start pimping this :)
+
+First of all we want to paint a bigger map, we can just play with the _scale_,
+then we want to center the map, let's _translate_ it, we will configure the projection
+
+```diff
+const aProjection = d3.geoMercator()
++     // Let's make the map bigger to fit in our resolution
++    .scale(500)
++    // Let's center the map
++    .translate([300, 900]);
+```
+
+- This is looking better, let's add some styling we want to add some background to each country, and draw their borders.
+
+- Let's define the styles in a _map.css_ file:
+
+_./src/map.css_
+
+```css
+.country {
+  stroke-width: 1;
+  stroke: #2f4858;
+  fill: #008c86;
+}
+```
+
+- Let's import it in our index.html
+
+_./src/index.html_
+
+```diff
+  <head>
++    <link rel="stylesheet" type="text/css" href="./map.css" />
+    <link rel="stylesheet" type="text/css" href="./base.css" />
+  </head>
+```
+
+- Let's use it in our map rendering:
+
+```diff
+svg
+  .selectAll("path")
+  .data(geojson["features"])
+  .enter()
+  .append("path")
++ .attr("class", "country")
+  // data loaded from json file
+  .attr("d", geoPath as any);
+```
+
+- That looks great, now let's add some interactivity, when the user hovers over a given country we want to high light it.
+
+- Let's add some styling (append this to map css):
+
+_./src/map.css_
+
+```css
+.selected-country {
+  stroke-width: 1;
+  stroke: #bc5b40;
+  fill: #f88f70;
+}
+```
+
+- Let's update the style of the country using two events _mouseover_ _mouseout_
+
+```diff
+svg
+  .selectAll("path")
+  .data(geojson["features"])
+  .enter()
+  .append("path")
+  .attr("class", "country")
+  // data loaded from json file
+  .attr("d", geoPath as any)
++  .on("mouseover", function(d, i) {
++    d3.select(this).attr("class", "selected-country");
++  })
++  .on("mouseout", function(d, i) {
++    d3.select(this).attr("class", "country");
++  })
+  ;
 ```
 
 # About Basefactor + Lemoncode
