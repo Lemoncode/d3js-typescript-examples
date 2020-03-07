@@ -15,7 +15,7 @@ We have the follwoing information (07 March)
 | France          |   613    |
 | Spain           |   443    |
 | Switzerland     |   210    |
-| United Kingdom  |   163    |
+| England         |   163    |
 | Sweden          |   137    |
 | Netherdlands    |   128    |
 | Norway          |   113    |
@@ -32,7 +32,6 @@ We have the follwoing information (07 March)
 | Estonia         |    10    |
 | Portugal        |    8     |
 | Rusia           |    8     |
-| Bielorrusia     |    6     |
 | Eslovenia       |    6     |
 | Rumania         |    6     |
 | Polonia         |    5     |
