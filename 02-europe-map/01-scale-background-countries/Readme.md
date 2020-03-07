@@ -6,7 +6,15 @@ colours each european country depending on heavhy they have been affected by Cho
 
 # Steps
 
-We have the follwoing information (07 March)
+- We will take as starting point our previous example: _00-render-map-hover_ let's copy
+  the content and execute _npm start_
+
+``bash
+npm start
+
+````
+
+We have the following information (07 March)
 
 | Country         | Infected |
 | --------------- | :------: |
@@ -77,7 +85,7 @@ export const coronaVirusAffectedByCountry = [
   { country: "Lithuania", affected: 1 },
   { country: "Monaco", affected: 1 }
 ];
-```
+````
 
 - Le't import the new set of data into our _index.ts_ file:
 
