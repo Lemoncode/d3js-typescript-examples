@@ -5,7 +5,7 @@ export const stats = [
   },
   {
     name: "La Rioja",
-    value: 39
+    value: 38
   },
   {
     name: "Andalucía",
