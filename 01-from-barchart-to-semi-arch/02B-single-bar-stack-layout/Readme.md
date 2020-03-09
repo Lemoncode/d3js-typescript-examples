@@ -162,7 +162,7 @@ const singleElectionResult = resultCollectionSpainNov19.reduce(
     ...total,
     [item.party]: item.seats
   }),
-  { id: 0 }
+  {}
 );
 
 // Stack Layout will expect an array of objects
@@ -212,6 +212,7 @@ chartGroup
   .attr("y", d => chartDimensions.height - barHeight)
   .attr("fill", (d, i) => partiesColorScale(d.key));
 ```
+
 - Let's run this code now
 
 ```bash

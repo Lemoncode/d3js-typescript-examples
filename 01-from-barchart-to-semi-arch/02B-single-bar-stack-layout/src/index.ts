@@ -73,7 +73,7 @@ const singleElectionResult = resultCollectionSpainNov19.reduce(
     ...total,
     [item.party]: item.seats
   }),
-  { id: 0 }
+  {}
 );
 
 // Stack Layout will expect an array of objects
