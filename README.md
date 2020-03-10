@@ -10,7 +10,7 @@ type of charts until he is able to generate something his boss is happy
 with, final result:
 
 <p align="center">
-  <img src="./05-multiple-series/content/chart.gif" alt="animated series">
+  <img src="./01-from-barchart-to-semi-arch/05-multiple-series/content/chart.gif" alt="animated series">
 </p>
 
 In between steps:

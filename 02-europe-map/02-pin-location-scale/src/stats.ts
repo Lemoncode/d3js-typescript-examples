@@ -1,66 +1,70 @@
 export const stats = [
   {
     name: "Madrid",
-    value: 174
+    value: 587
   },
   {
     name: "La Rioja",
-    value: 39
+    value: 102
   },
   {
     name: "Andalucía",
-    value: 34
+    value: 54
   },
   {
     name: "Cataluña",
-    value: 24
+    value: 101
   },
   {
     name: "Valencia",
-    value: 30
+    value: 50
   },
   {
     name: "Murcia",
-    value: 0
-  },
-  {
-    name: "Extremadura",
-    value: 6
-  },
-  {
-    name: "Castilla La Mancha",
-    value: 16
-  },
-  {
-    name: "País Vasco",
-    value: 45
-  },
-  {
-    name: "Cantabria",
-    value: 10
-  },
-  {
-    name: "Asturias",
     value: 5
   },
   {
+    name: "Extremadura",
+    value: 7
+  },
+  {
+    name: "Castilla La Mancha",
+    value: 26
+  },
+  {
+    name: "País Vasco",
+    value: 148
+  },
+  {
+    name: "Cantabria",
+    value: 12
+  },
+  {
+    name: "Asturias",
+    value: 10
+  },
+  {
     name: "Galicia",
-    value: 3
-  },
-  {
-    name: "Aragón",
-    value: 11
-  },
-  {
-    name: "Castilla y León",
-    value: 19
-  },
-  {
-    name: "Islas Canarias",
     value: 18
   },
   {
+    name: "Aragón",
+    value: 32
+  },
+  {
+    name: "Castilla y León",
+    value: 40
+  },
+  {
+    name: "Islas Canarias",
+    value: 24
+  },
+  {
     name: "Islas Baleares",
-    value: 6
+    value: 11
+  },
+  {
+    name: "Navarra",
+    value: 13
   }
 ];

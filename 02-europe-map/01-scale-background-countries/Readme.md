@@ -9,10 +9,9 @@ colours each european country depending on heavhy they have been affected by Cho
 - We will take as starting point our previous example: _00-render-map-hover_ let's copy
   the content and execute _npm start_
 
-``bash
+```bash
 npm start
-
-````
+```
 
 We have the following information (07 March)
 
@@ -52,7 +51,7 @@ We have the following information (07 March)
 - Let's port it to json (respecting the name of the countries that we are using
   in our europe map)
 
-_./src/stat.js_
+_./src/stats.js_
 
 ```js
 export const coronaVirusAffectedByCountry = [
@@ -85,7 +84,7 @@ export const coronaVirusAffectedByCountry = [
   { country: "Lithuania", affected: 1 },
   { country: "Monaco", affected: 1 }
 ];
-````
+```
 
 - Le't import the new set of data into our _index.ts_ file:
 
