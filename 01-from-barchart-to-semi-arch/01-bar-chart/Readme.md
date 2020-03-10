@@ -7,6 +7,8 @@ First we are going to start creating a Bar Chart form scratch (we won't get bene
 
 ![Example bar chart](./content/bar-chart.png "Example bar chart")
 
+codesandbox: https://codesandbox.io/s/nameless-flower-h77vc
+
 # Steps
 
 - Let's copy the content from the previous example (00-boiler-plate).

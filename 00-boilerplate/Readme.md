@@ -8,6 +8,8 @@ Project setup:
 - Language: **Typescript**.
 - Libraries imported: d3js (whole library, not using selective imports approach).
 
+codesandbox: https://codesandbox.io/s/lucid-noether-6hbpr
+
 This examples would work using any other bundler, e.g. **Webpack**, just chosen **Parcel** for the
 sake of simplicity.
 
@@ -91,6 +93,7 @@ npm install d3 --save
 ```bash
 npm install @types/d3 --save
 ```
+
 - Create a _./src_ folder
 - Create a new file _./src/base.css_
 - Let's add some CSS
@@ -272,8 +275,7 @@ table {
 }
 body {
   background: none repeat scroll 0% 0% rgb(255, 255, 255);
-  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
+  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   color: #3b3b3b;
 }
@@ -430,7 +432,138 @@ svg
   .attr("r", 20)
   .attr("cx", 20)
   .attr("cy", 20);
+```
 
+- Let's add a data file:
+
+_./src/data.ts_
+
+```typescript
+export interface ResultEntry {
+  party: string;
+  seats: number;
+}
+
+// Approx numbers
+// https://www.lavanguardia.com/elecciones/elecciones-generales-noviembre-2019
+
+export const resultCollectionSpainNov19: ResultEntry[] = [
+  {
+    party: "PSOE",
+    seats: 120
+  },
+  {
+    party: "PP",
+    seats: 88
+  },
+  {
+    party: "VOX",
+    seats: 52
+  },
+  {
+    party: "UP",
+    seats: 35
+  },
+  {
+    party: "ERC",
+    seats: 13
+  },
+  {
+    party: "Cs",
+    seats: 10
+  },
+  {
+    party: "JxCat",
+    seats: 8
+  },
+  {
+    party: "PNV",
+    seats: 7
+  },
+  {
+    party: "Bildu",
+    seats: 5
+  },
+  {
+    party: "Más pais",
+    seats: 4
+  },
+  {
+    party: "CUP",
+    seats: 2
+  },
+  {
+    party: "CC",
+    seats: 2
+  },
+  {
+    party: "BNG",
+    seats: 1
+  },
+  {
+    party: "Teruel Existe",
+    seats: 1
+  }
+];
+
+export const resultCollectionSpainApr19: ResultEntry[] = [
+  {
+    party: "PSOE",
+    seats: 123
+  },
+  {
+    party: "PP",
+    seats: 66
+  },
+  {
+    party: "VOX",
+    seats: 24
+  },
+  {
+    party: "UP",
+    seats: 42
+  },
+  {
+    party: "ERC",
+    seats: 15
+  },
+  {
+    party: "Cs",
+    seats: 57
+  },
+  {
+    party: "JxCat",
+    seats: 7
+  },
+  {
+    party: "PNV",
+    seats: 6
+  },
+  {
+    party: "Bildu",
+    seats: 4
+  },
+  {
+    party: "Más pais",
+    seats: 4
+  },
+  {
+    party: "CUP",
+    seats: 2
+  },
+  {
+    party: "CC",
+    seats: 2
+  },
+  {
+    party: "BNG",
+    seats: 1
+  },
+  {
+    party: "Compromis",
+    seats: 1
+  }
+];
 ```
 
 - Let's run the example
