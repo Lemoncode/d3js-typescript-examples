@@ -4,6 +4,10 @@ Our boss got a link form a spanish news paper about choronavirus stats, he got
 astonished by the charts that we represented (https://elpais.com/sociedad/2020/03/03/actualidad/1583227754_157787.html), now we have to implement a chart that
 colours each european country depending on heavhy they have been affected by Choronavirus.
 
+![Europe Chart Corona Virus](./content/chart.png)
+
+Codesandbox: https://codesandbox.io/s/aged-sunset-y8n63
+
 # Steps
 
 - We will take as starting point our previous example: _00-render-map-hover_ let's copy
@@ -51,9 +55,9 @@ We have the following information (07 March)
 - Let's port it to json (respecting the name of the countries that we are using
   in our europe map)
 
-_./src/stats.js_
+_./src/stats.ts_
 
-```js
+```typescript
 export const coronaVirusAffectedByCountry = [
   { country: "Italy", affected: 4636 },
   { country: "Germany", affected: 687 },
