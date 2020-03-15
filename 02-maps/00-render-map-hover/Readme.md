@@ -6,6 +6,10 @@ features:
 - Proper display all the countries (right size, center...).
 - Highlight the country where the mouse is pointing to (mouse hover).
 
+![Europe chart plus mouse hover](./content/chart.gif)
+
+Codesandbox: https://codesandbox.io/s/headless-river-s7yj3
+
 # Steps
 
 - We will take as starting example _00-boilerplate_, let's copy the content from that folder and execute _npm install_.
@@ -64,6 +68,8 @@ const svg = d3
 
 Let's download and copy that file under the _src_ folder
 
+_./src/europe.json_
+
 - We are going to include this file into the bundle and import it (another approach could load it from a remote location using _d3.json_).
 
 First we will install the _node_ typings to get _require_ typing.
@@ -109,7 +115,7 @@ const aProjection = d3.geoMercator();
 - Now we need to convert from _topoJson_ to _geoJson_:
 
 ```diff
--   const geoPath = d3.geoPath().projection(aProjection);
+   const geoPath = d3.geoPath().projection(aProjection);
 +  const geojson = topojson.feature(
 +    europejson,
 +    europejson.objects.continent_Europe_subunits
