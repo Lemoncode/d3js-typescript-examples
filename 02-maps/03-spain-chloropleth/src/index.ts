@@ -7,8 +7,6 @@ const d3Composite = require("d3-composite-projections");
 import { presimplify, simplify, feature } from "topojson";
 import { Feature, Geometry } from "geojson";
 
-console.log(spainjson);
-
 const svg = d3
   .select("body")
   .append("svg")
@@ -25,9 +23,7 @@ const aProjection = d3Composite
 const geoPath = d3.geoPath().projection(aProjection);
 const geojson = topojson.feature(spainjson, spainjson.objects.ccaa);
 
-// (*) Prior to define the onDataReady function callback
-// we will need typings here to specify the structure of the
-// expected regions and municipalities entities.
+// Let's add some typings based on TopoJson data structure
 interface Municipality {
   name: string;
   rate: number;
@@ -37,7 +33,7 @@ interface MunicipalityData extends Objects {
   municipios: GeometryCollection<Municipality>;
 }
 
-// (*) Lets implement a scale to assign color to
+// Lets implement a scale to assign color to
 // each municipality based on its population density.
 // This time, instead of manually setting the domain,
 // let's compute it dynamically from the data.
@@ -46,13 +42,18 @@ const densities = municipalitiesjson.objects.municipios.geometries.map(
 );
 const densityExtent = d3.extent(densities);
 const densityScale = d3
-  .scaleSqrt()
+  //.scaleLinear()
+  //.scaleLog()
+  //.scalePow()
+  .scaleSqrt() // more info about scales: https://observablehq.com/@d3/continuous-scales
   .exponent(1 / 6)
   .domain(<any>densityExtent)
   .range([0, 1]);
 const colorScale = (density: number) =>
-  d3.interpolateReds(densityScale(density || 0));
+  // Given a number t in the range [0,1], returns the corresponding color from the “Blues” sequential color scheme represented as an RGB string.
+  d3.interpolateBlues(densityScale(density || 0)); // e.g. Try interpolateReds, interpolateCool
 
+// Let's paint first the map
 svg
   .selectAll("path")
   .data(geojson["features"])
@@ -65,6 +66,11 @@ svg
 // (*) Lets implement the ENTER pattern for each new municipality
 // to be represented with a SVG path joined to its datum.
 // First, we need to extract the corresponding feature collection.
+
+// https://www.freecodecamp.org/forum/t/d3-topojson-feature-explanation/235396/2
+// A topojson file contains  a mathematical descripcion of the map and
+// features that links the shapes to a given concept (e.g. countries, regions,
+// municipalities, provinces)
 const municipalities = feature(
   municipalitiesjson,
   municipalitiesjson.objects.municipios
@@ -74,6 +80,9 @@ const municipalitiesGroup = svg.append("g");
 
 municipalitiesGroup
   .selectAll("path")
+  // In data we get array of features (municipality name and rate value)
+  // we pass that array, and in the second parameter we are indicating the key
+  // in this case the name field that contains the municipality name
   .data(
     <any>municipalities["features"],
     (d: Feature<Geometry, Municipality>) => d.properties.name
@@ -81,4 +90,8 @@ municipalitiesGroup
   .enter()
   .append("path")
   .attr("d", geoPath)
-  .attr("fill", d => colorScale(<any>d["properties"]["rate"]));
+  // From the feature object we extract the rate and usig it to fill the current
+  // municipality background
+  .attr("fill", (d: Feature<Geometry, Municipality>) =>
+    colorScale(d.properties.rate)
+  );
