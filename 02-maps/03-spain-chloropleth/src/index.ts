@@ -84,7 +84,7 @@ municipalitiesGroup
   // we pass that array, and in the second parameter we are indicating the key
   // in this case the name field that contains the municipality name
   .data(
-    <any>municipalities["features"],
+    municipalities["features"],
     (d: Feature<Geometry, Municipality>) => d.properties.name
   )
   .enter()
