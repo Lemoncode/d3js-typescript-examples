@@ -2,7 +2,8 @@
 
 "You nailed it!" the boss said, that's great, buuuuut... he asked as well if
 we can just pimp a bit the chart, it is going to be published on an online
-newspaper and it needs some details like add a legend to the chart...
+newspaper and it needs some details like add a legend to the chart, highlight
+the selected party when we make a mouse hover, ...
 
 Something like:
 
@@ -57,6 +58,22 @@ const legendGroup = svg
   .attr("transform", `translate(${legendLeft},${legendTop})`);
 
 legendGroup.call(legendOrdinal);
+```
+
+- Let's go for one more goodie, we want to highlight the piece of arc where the mouse point
+  is on.
+
+```diff
+arcs
+  .append("path")
+  .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
+  .attr("fill", (d, i) => partiesColor[i]); // TODO color ordinal
++ .on("mouseover", function(d, i) {
++   d3.select(this).attr("transform", `scale(1.1, 1.1)`);
++ })
++  .on("mouseout", function(d, i) {
++    d3.select(this).attr("transform", ``);
++  });
 ```
 
 # Excercise

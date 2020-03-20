@@ -79,7 +79,13 @@ const arcs = chartGroup
 arcs
   .append("path")
   .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
-  .attr("fill", (d, i) => partiesColor[i]); // TODO color ordinal
+  .attr("fill", (d, i) => partiesColor[i]) // TODO color ordinal
+  .on("mouseover", function(d, i) {
+    d3.select(this).attr("transform", `scale(1.1, 1.1)`);
+  })
+  .on("mouseout", function(d, i) {
+    d3.select(this).attr("transform", ``);
+  });
 
 // Legend
 var ordinal = d3
