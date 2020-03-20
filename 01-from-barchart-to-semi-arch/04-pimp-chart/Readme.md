@@ -91,7 +91,7 @@ div.tooltip {
   height: 28px;
   padding: 2px;
   font: 12px sans-serif;
-  background: lightsteelblue;
+  background: #f7f2cb;
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
@@ -129,12 +129,16 @@ _./src/index.ts_
 ```diff
   .on("mouseover", function(d, i) {
     d3.select(this).attr("transform", `scale(1.1, 1.1)`);
-+   div.transition()
-+                .duration(200)
-+                .style("opacity", .9);
-+            div	.html(`<span>${d.party}: ${d.seats}</span>`)
-+                .style("left", (d3.event.pageX) + "px")
-+                .style("top", (d3.event.pageY - 28) + "px");
++    div
++      .transition()
++      .duration(200)
++      .style("opacity", 0.9);
++    div
++      .html(
++        `<span>${resultCollectionSpainNov19[i].party}: ${resultCollectionSpainNov19[i].seats}</span>`
++      )
++      .style("left", `${d3.event.pageX}px`)
++      .style("top", `${d3.event.pageY - 28}px`);
   })
 ```
 
