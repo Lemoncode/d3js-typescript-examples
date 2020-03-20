@@ -51,6 +51,13 @@ const chartGroup = svg
   .attr("width", chartDimensions.width)
   .attr("height", chartDimensions.height);
 
+// Define the div for the tooltip
+const div = d3
+  .select("body")
+  .append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
+
 const radius = Math.min(chartDimensions.width, chartDimensions.height) / 2;
 
 chartGroup.attr("transform", `translate(${radius},${radius})`);
@@ -82,9 +89,23 @@ arcs
   .attr("fill", (d, i) => partiesColor[i]) // TODO color ordinal
   .on("mouseover", function(d, i) {
     d3.select(this).attr("transform", `scale(1.1, 1.1)`);
+    div
+      .transition()
+      .duration(200)
+      .style("opacity", 0.9);
+    div
+      .html(
+        `<span>${resultCollectionSpainNov19[i].party}: ${resultCollectionSpainNov19[i].seats}</span>`
+      )
+      .style("left", `${d3.event.pageX}px`)
+      .style("top", `${d3.event.pageY - 28}px`);
   })
   .on("mouseout", function(d, i) {
     d3.select(this).attr("transform", ``);
+    div
+      .transition()
+      .duration(500)
+      .style("opacity", 0);
   });
 
 // Legend

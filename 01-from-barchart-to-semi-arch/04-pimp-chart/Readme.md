@@ -76,6 +76,81 @@ arcs
 +  });
 ```
 
+- Now we want to add a tooltip when the mouse is over a party and display the
+  party and number of votes, we will follow the approach defined in this blocks example: https://bl.ocks.org/d3noob/a22c42db65eb00d4e369.
+
+- Let's start by defining the styles for that tooltip.
+
+_styles.css_
+
+```css
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+```
+
+- Let's import this css into our index.html
+
+_./src/index.html_
+
+```diff
+  <head>
+    <link rel="stylesheet" type="text/css" href="./base.css" />
++    <link rel="stylesheet" type="text/css" href="./styles.css" />
+  </head>
+```
+
+- Now let's define the tooltip.
+
+_./src/index.ts_
+
+```typescript
+// Define the div for the tooltip
+const div = d3
+  .select("body")
+  .append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
+```
+
+- And let's show it on mouseover
+
+_./src/index.ts_
+
+```diff
+  .on("mouseover", function(d, i) {
+    d3.select(this).attr("transform", `scale(1.1, 1.1)`);
++   div.transition()
++                .duration(200)
++                .style("opacity", .9);
++            div	.html(`<span>${d.party}: ${d.seats}</span>`)
++                .style("left", (d3.event.pageX) + "px")
++                .style("top", (d3.event.pageY - 28) + "px");
+  })
+```
+
+- And hide it on mouse out
+
+_./src/index.ts_
+
+```diff
+  .on("mouseout", function(d, i) {
+    d3.select(this).attr("transform", ``);
++   div.transition()
++                .duration(500)
++                .style("opacity", 0);
+  });
+```
+
 # Excercise
 
 A) We have shown a legend where all elements are in single columns, what if we want to split them in two columns?
@@ -97,3 +172,7 @@ We are an innovating team of Javascript experts, passionate about turning your i
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
 For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+
+```
+
+```
