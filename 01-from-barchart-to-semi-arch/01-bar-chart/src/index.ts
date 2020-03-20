@@ -20,6 +20,22 @@ const barWidth =
 
 const partiesColorScale = d3
   .scaleOrdinal([
+    "#ED1D25",
+    "#0056A8",
+    "#5BC035",
+    "#6B2E68",
+    "#F3B219",
+    "#FA5000",
+    "#C50048",
+    "#029626",
+    "#A3C940",
+    "#0DDEC5",
+    "#FFF203",
+    "#FFDB1B",
+    "#E61C13",
+    "#73B1E6"
+  ])
+  .domain([
     "PSOE",
     "PP",
     "VOX",
@@ -34,24 +50,6 @@ const partiesColorScale = d3
     "CC",
     "BNG",
     "Teruel Existe"
-  ])
-  .range([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-    "#BECD48",
-    "#017252"
   ]);
 
 const svg = d3

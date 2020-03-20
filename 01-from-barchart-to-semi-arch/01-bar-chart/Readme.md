@@ -176,8 +176,9 @@ svg
 ```
 
 - Adding magic harcoded numbers can be a bit dangerous, e.g. if you decide to change the height of your canvas, or add different margin everyting can be screwn up.
-Let's refactor this a bit and add some variables to control all this:
-_./src/index.ts_
+  Let's refactor this a bit and add some variables to control all this:
+  _./src/index.ts_
+
 ```diff
 +  const svgDimensions = {width: 500, height: 500}
 +  const margin = { left: 5, right: 5, top: 10, bottom: 10 };
@@ -293,7 +294,8 @@ chartGroup
 
 ```typescript
 const partiesColorScale = d3
-  .scaleOrdinal([
+  .scaleOrdinal(d3.schemeCategory10)
+  .domain([
     "PSOE",
     "PP",
     "VOX",
@@ -308,8 +310,7 @@ const partiesColorScale = d3
     "CC",
     "BNG",
     "Teruel Existe"
-  ])
-  .range(d3.schemeCategory10);
+  ]);
 ```
 
 - And let's use it on every chart:
@@ -332,7 +333,26 @@ chartGroup
 
 ```diff
 const partiesColorScale = d3
-  .scaleOrdinal([
+  .scaleOrdinal(
+-    d3.schemeCategory10
++ [
++    "#ED1D25",
++    "#0056A8",
++    "#5BC035",
++    "#6B2E68",
++    "#F3B219",
++    "#FA5000",
++    "#C50048",
++    "#029626",
++    "#A3C940",
++    "#0DDEC5",
++    "#FFF203",
++    "#FFDB1B",
++    "#E61C13",
++    "#73B1E6"
++  ]
+  ])
+  .domain([
     "PSOE",
     "PP",
     "VOX",
@@ -347,26 +367,7 @@ const partiesColorScale = d3
     "CC",
     "BNG",
     "Teruel Existe"
-  ])
--  .range(d3.schemeCategory10);
-+  .range([
-+     '#ED1D25',
-+     '#0056A8',
-+     '#5BC035',
-+     '#6B2E68',
-+     '#F3B219',
-+     '#FA5000',
-+     '#C50048',
-+     '#029626',
-+     '#A3C940',
-+     '#0DDEC5',
-+     '#FFF203',
-+     '#FFDB1B',
-+     '#E61C13',
-+     '#73B1E6',
-+     '#BECD48',
-+     '#017252'
-+ ]);
+  ]);
 ```
 
 - We feel proud about this chart, we could now add a legend, x/y axis... but we will
@@ -418,6 +419,7 @@ const generateBarChart = (
 
 Whole refactored file:
 _./src/index.ts_
+
 ```typescript
 import * as d3 from "d3";
 import { resultCollectionSpainNov19, ResultEntry } from "./data";
