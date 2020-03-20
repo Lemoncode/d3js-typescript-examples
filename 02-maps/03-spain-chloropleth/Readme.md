@@ -1,12 +1,15 @@
 # Spain Chrolopleth
 
-TODO: Explain what is a chrolopleth
+Our boss is happy with the work we have done so far... it's time to hop in showing more data,
+in this case we want to display a map where you
 
-Explain we got a topojosn municipalities + population rate
+Time to start playing with [Chrolopleth maps](https://en.wikipedia.org/wiki/Choropleth_map)
+
+![Population map](./content/map.png "population map")
+
+Codesadbox: https://codesandbox.io/s/eager-moore-s5dbw
 
 # Steps
-
-TODO: Where to get the data and copy
 
 - We will take as starting example _00-boilerplate_, let's copy the content from that folder and execute _npm install_.
 
@@ -23,6 +26,16 @@ npm install topojson-client --save
 
 ```bash
 npm install @types/topojson-client --save-dev
+```
+
+- Let's install topojson:
+
+```bash
+npm install topojson --save
+```
+
+```bash
+npm install @types/topojson --save-dev
 ```
 
 - Let's install the _composite projections_ project to display the Canary Island just below spain.
@@ -115,6 +128,20 @@ const geojson = topojson.feature(spainjson, spainjson.objects.ccaa);
 
 - Let's create some typings to get help went typing our code (strong typing + intellisense):
 
+- First we will import _GeometryCollection_ entity and some helper function from topojson:
+
+_./src/index.ts_
+
+```typescript
+import { Topology, GeometryCollection, Objects } from "topojson-specification";
+import { Feature, Geometry } from "geojson";
+import { presimplify, simplify, feature } from "topojson";
+```
+
+- Now let's add the typings.
+
+_./src/index.ts_
+
 ```typescript
 // Let's add some typings based on TopoJson data structure
 interface Municipality {
@@ -205,7 +232,7 @@ municipalitiesGroup
   .selectAll("path")
   // In data we get array of features (municipality name and rate value)
   // we pass that array, and in the second parameter we are indicating the key
-  // in this case the name field that contains the municipality name 
+  // in this case the name field that contains the municipality name
   .data(
     <any>municipalities["features"],
     (d: Feature<Geometry, Municipality>) => d.properties.name
@@ -217,7 +244,6 @@ municipalitiesGroup
   // municipality background
   .attr("fill", d => colorScale(<any>d["properties"]["rate"]));
 ```
-
 
 # About Basefactor + Lemoncode
 
