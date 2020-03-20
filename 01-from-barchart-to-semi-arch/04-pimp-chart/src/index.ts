@@ -110,9 +110,8 @@ arcs
 
 // Legend
 var ordinal = d3
-  .scaleOrdinal()
+  .scaleOrdinal(partiesColor)
   .domain(politicalPartiesKeys)
-  .range(partiesColor);
 
 var legendOrdinal = legendColor().scale(ordinal);
 
