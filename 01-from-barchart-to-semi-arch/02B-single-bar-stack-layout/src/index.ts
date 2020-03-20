@@ -19,8 +19,7 @@ const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
 );
 
 const partiesColorScale = d3
-  .scaleOrdinal(politicalPartiesKeys)
-  .range([
+  .scaleOrdinal([
     "#ED1D25",
     "#0056A8",
     "#5BC035",
@@ -34,10 +33,9 @@ const partiesColorScale = d3
     "#FFF203",
     "#FFDB1B",
     "#E61C13",
-    "#73B1E6",
-    "#BECD48",
-    "#017252"
-  ]);
+    "#73B1E6"
+  ])
+  .domain(politicalPartiesKeys);
 
 const svg = d3
   .select("body")
