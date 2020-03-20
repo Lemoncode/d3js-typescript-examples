@@ -88,8 +88,7 @@ const politicalParties = [
 ];
 
 const partiesColorScale = d3
-  .scaleOrdinal(politicalParties)
-  .range([
+  .scaleOrdinal([
     "#ED1D25",
     "#0056A8",
     "#5BC035",
@@ -103,10 +102,9 @@ const partiesColorScale = d3
     "#FFF203",
     "#FFDB1B",
     "#E61C13",
-    "#73B1E6",
-    "#BECD48",
-    "#017252"
-  ]);
+    "#73B1E6"
+  ])
+  .domain(politicalParties);
 
 const svg = d3
   .select("body")
@@ -156,6 +154,7 @@ chartGroup
   .attr("y", d => chartDimensions.height - barHeight)
   .attr("fill", d => partiesColorScale(d.party));
 ```
+
 - Let's run this code now
 
 ```bash
