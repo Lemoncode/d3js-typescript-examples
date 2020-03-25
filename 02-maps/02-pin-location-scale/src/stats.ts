@@ -65,6 +65,12 @@ export const stats = [
   },
   {
     name: "Navarra",
-    value: 13
+    long: -1.65,
+    lat: 42.816666
+  },
+  {
+    name: "La Rioja",
+    long: -2.445556,
+    lat: 42.465
   }
 ];
