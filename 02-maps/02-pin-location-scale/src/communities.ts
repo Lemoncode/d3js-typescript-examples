@@ -75,13 +75,13 @@ export const latLongCommunities = [
     lat: 39.18969
   },
   {
-    name: "La Rioja",
-    long: -2.44373,
-    lat: 42.4650
+    name: "Navarra",
+    long: -1.65,
+    lat: 42.816666
   },
   {
-    name: "Navarra",
-    long: -1.676069,
-    lat: 42.695391
+    name: "La Rioja",
+    long: -2.445556,
+    lat: 42.465
   }
 ];
