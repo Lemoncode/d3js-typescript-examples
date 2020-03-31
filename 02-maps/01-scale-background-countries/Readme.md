@@ -110,7 +110,7 @@ import { coronaVirusAffectedByCountry } from "./stats";
 + // set the affected color scale
 + var color = d3
 +  .scaleThreshold<number, string>()
-+  .domain([0, 1, 100, 500, 700, 1000])
++  .domain([0, 1, 100, 500, 700, 5000])
 +  .range([
 +    "#FFFFF",
 +    "#FFE8E5",
@@ -128,7 +128,7 @@ import { coronaVirusAffectedByCountry } from "./stats";
 ```diff
 var color = d3
   .scaleThreshold<number, string>()
-  .domain([0, 1, 100, 500, 700, 1000])
+  .domain([0, 1, 100, 500, 700, 5000])
   .range([
     "#FFFFF",
     "#FFE8E5",
@@ -152,7 +152,7 @@ var color = d3
 + };
 ```
 
-- Now it's time to remove features that we need on the map render (mouse out, mouseover):
+- Now it's time to remove features that we don´t need on the map render (mouse out, mouseover):
 
 ```diff
 svg
@@ -190,7 +190,9 @@ svg
 ```
 
 - To complete our styling journey, let's modify our country css class to provide a default
-  background color to our countrie.
+  background color to our countries.
+
+_./src/map.css_
 
 ```diff
 .country {

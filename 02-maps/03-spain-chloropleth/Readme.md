@@ -18,7 +18,7 @@ npm install
 ```
 
 - When you deal with maps you can use two map formats GeoJSON or TopoJSON, topo JSON is lightweight and offers some extra
-  features, let's install the needed package to work with:
+  features, let's install the needed packages to work with:
 
 ```bash
 npm install topojson-client --save
@@ -50,72 +50,36 @@ npm install d3-composite-projections --save
 npm install @types/node --save-dev
 ```
 
-- Let's remove part of the boilerplate test code:
+- Now we need the data to draw spain map by regions, you can obtain it in this address: https://github.com/Lemoncode/d3js-typescript-examples/blob/master/02-maps/03-spain-chloropleth/src/data/regions.json and save it in a newe file _./src/data/regions.json_
 
-_./index.ts_
+- Let's obtain as well the population density by municipality:https://github.com/Lemoncode/d3js-typescript-examples/blob/master/02-maps/03-spain-chloropleth/src/data/municipalities.json and save that file under _./src/data/municipalities.json_
 
-```diff
-- svg
--  .append("text")
--  .attr("x", 100)
--  .attr("y", 100)
--  .text("Hello d3js");
-
--svg
--  .append("circle")
--  .attr("r", 20)
--  .attr("cx", 20)
--  .attr("cy", 20);
-```
-
-- Let's change the size of the svg we are using and add some background color:
-
-```diff
-const svg = d3
-  .select("body")
-  .append("svg")
-+  .attr("width", 1024)
--  .attr("width", 500)
-+  .attr("height", 800)
--  .attr("height", 500);
-+  .attr("style", "background-color: #FBFAF0");
-```
-
-- Now we need the data to draw spain map by regions, you can obtain it in this address: https://github.com/Lemoncode/d3js-typescript-examples/blob/master/02-maps/03-spain-chloropleth/src/data/regions.json
-
-- Let's obtain as well the population density by municipality:https://github.com/Lemoncode/d3js-typescript-examples/blob/master/02-maps/03-spain-chloropleth/src/data/municipalities.json
-
-- Let's import topojson, import the map info we have downloaded, and import the projections project that we use to place the canary island near the peninsula ibérica.
+- Let's import topojson, import the map info we have downloaded, and import the projections project that we use to place the Canary island near the Peninsula ibérica.
 
 ```diff
 import * as d3 from "d3";
-+ import * as topojson from "topojson-client";
+import * as topojson from "topojson-client";
+- const europejson = require("./europe.json");
 + const spainjson = require("./data/regions.json");
 + const municipalitiesjson = require("./data/municipalities.json");
 + const d3Composite = require("d3-composite-projections");
 ```
 
-- Let's update the size of our canvas:
-
-```diff
-const svg = d3
-  .select("body")
-  .append("svg")
--  .attr("width", 500)
-+  .attr("width", 1024)
--  .attr("height", 500);
-+  .attr("height", 800);
-```
-
 - Let's create the spanish map projection (we will move Canarias from it's location):
 
-```typescript
-const aProjection = d3Composite
-  .geoConicConformalSpain()
+```diff
+-const aProjection = d3
+-  .geoMercator()
   // Let's make the map bigger to fit in our resolution
-  .scale(3300)
+-  .scale(500)
   // Let's center the map
-  .translate([500, 400]);
+-  .translate([300, 900]);
++ const aProjection = d3Composite
++ .geoConicConformalSpain()
+  // Let's make the map bigger to fit in our resolution
++  .scale(3300)
+  // Let's center the map
++ .translate([500, 400]);
 
 const geoPath = d3.geoPath().projection(aProjection);
 ```
@@ -126,7 +90,7 @@ const geoPath = d3.geoPath().projection(aProjection);
 const geojson = topojson.feature(spainjson, spainjson.objects.ccaa);
 ```
 
-- Let's create some typings to get help went typing our code (strong typing + intellisense):
+- Let's create some typings to get help when typing our code (strong typing + intellisense):
 
 - First we will import _GeometryCollection_ entity and some helper function from topojson:
 
@@ -157,6 +121,8 @@ interface MunicipalityData extends Objects {
 - Now comes an interesting part, so far we have created linear or ordinal scales, this time:
   - We will use an sqrt scale to better display the differences (once the example is completed you can play uncommenting other scales and check results)
   - We will let d3 to calculate the background color based on the values (Given a number t in the range [0,1], returns the corresponding color from the “Blues” sequential color scheme represented as an RGB string)
+
+_./src/index.ts_
 
 ```typescript
 // Lets implement a scale to assign color to

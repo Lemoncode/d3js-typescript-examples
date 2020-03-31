@@ -18,7 +18,7 @@ Codesandbox: https://codesandbox.io/s/headless-river-s7yj3
 npm install
 ```
 
-- When you deal with maps you can use two map formats GeoJSON or TopoJSON, topo JSON is lightweight and offers some extra
+- When you deal with maps you can use two map formats GeoJSON or TopoJSON, topoJSON is lightweight and offers some extra
   features, let's install the needed package to work with:
 
 ```bash
@@ -31,9 +31,17 @@ npm install @types/topojson-client --save-dev
 
 - Let's remove part of the boilerplate test code:
 
-_./index.ts_
+_./src/index.ts_
 
 ```diff
+import * as d3 from "d3";
+
+const svg = d3
+  .select("body")
+  .append("svg")
+  .attr("width", 500)
+  .attr("height", 500);
+  europe.json
 - svg
 -  .append("text")
 -  .attr("x", 100)
@@ -98,7 +106,7 @@ _./src/index.ts_
 const europeJson = require("./europe.json");
 
 + const aProjection = d3
-+  .geoMercator()
++  .geoMercator();
 ```
 
 > more about projections: https://d3-wiki.readthedocs.io/zh_CN/master/Geo-Projections/
@@ -140,7 +148,7 @@ svg
 npm start
 ```
 
-- Hey we got an small map displayed, let's start pimping this :)
+- Hey! we got an small map displayed, let's start pimping this :)
 
 First of all we want to paint a bigger map, we can just play with the _scale_,
 then we want to center the map, let's _translate_ it, we will configure the projection

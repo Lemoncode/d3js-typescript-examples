@@ -37,7 +37,7 @@ import * as topojson from "topojson-client";
 + const spainjson = require("./spain.json");
 ```
 
-- Let's build the spain map instenad of europe:
+- Let's build the spain map in stenad of europe:
 
 _./src/index.ts_
 
@@ -51,7 +51,7 @@ const geojson = topojson.feature(
 ```
 
 > How do we know that we have to use _spainjson.objects.ESP_adm1_ just by examining
-> the _spain.json_ file and by debugging and inspecting what's inside _spainjson_ object
+> the _spain.json_ file and by debugging and inspecting what's inside _spainjson_ object?
 
 - If we run the project, we will get some bitter-sweet feelings, we can see a map of spain,
   but it's too smal, and on the other hand, canary islands are shown far away (that's normal,
@@ -66,10 +66,10 @@ const aProjection = d3
   .geoMercator()
   // Let's make the map bigger to fit in our resolution
 -  .scale(500)
-+  .scale(2300)
++  .scale(2000)
   // Let's center the map
--  .translate([300, 900]);
-+  .translate([600, 2000]);
+-  .translate([300, 900])3
++  .translate([650, 1800]);
 ```
 
 - If we run the project we can check that the map is now renders in a proper size and position, let's
@@ -100,7 +100,7 @@ const spainjson = require("./spain.json");
 - Let's change the projection we are using (we will need to tweak as well the
   _scale_ and _translate_ values):
 
-_./index.ts_
+_./src/index.ts_
 
 ```diff
 const aProjection =
@@ -109,7 +109,7 @@ const aProjection =
 +  d3Composite
 +  .geoConicConformalSpain()
   // Let's make the map bigger to fit in our resolution
--  .scale(2300)
+-  .scale(2000)
 +  .scale(3300)
   // Let's center the map
 -  .translate([600, 2000]);
@@ -379,7 +379,7 @@ svg
   .attr("cy", d => aProjection([d.long, d.lat])[1]);
 ```
 
-- If we run the example we can check that know circles are shonw in the right size:
+- If we run the example we can check that know circles are shonw in the right size.
 
 - Black circles are ugly let's add some styles, we will just use a red background and
   add some transparency to let the user see the spot and the map under that spot.
@@ -407,7 +407,7 @@ _./src/map.css_
 + }
 ```
 
-- Let's apply this style to the black circles tha we are rendering:
+- Let's apply this style to the black circles that we are rendering:
 
 _./src/index.ts_
 
