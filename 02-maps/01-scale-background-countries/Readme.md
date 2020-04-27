@@ -108,7 +108,7 @@ _./src/index.ts_
 import { coronaVirusAffectedByCountry } from "./stats";
 
 + // set the affected color scale
-+ var color = d3
++ const color = d3
 +  .scaleThreshold<number, string>()
 +  .domain([0, 1, 100, 500, 700, 5000])
 +  .range([
@@ -143,11 +143,6 @@ var color = d3
 +  const item = coronaVirusAffectedByCountry.find(
 +    item => item.country === countryName
 +  );
-+
-+  if (item) {
-+    console.log(item.affected);
-+  }
-+
 +  return item ? color(item.affected) : color(0);
 + };
 ```
