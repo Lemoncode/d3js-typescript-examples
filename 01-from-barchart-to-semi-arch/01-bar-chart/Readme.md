@@ -144,7 +144,7 @@ svg
 - Now the chart is not flipped, but we are getting an strange feeling, ... we are calculating seats, what would
   happen if the measure we would be handling is for instance millions of habitants, ... we don't have enough
   pixels to display this :), is time to learn about how to scale values, in this case:
-  - We know that the number of seats available is 350 (if we don't know that value, we can just calculate
+  - We know that the number of seats available is 350, and the most voted political party has 150 seats (if we don't know that value, we can just calculate
     it iterating over the data entry array) .
   - We know that we got available 500 pixels of height space.
   - d3js offers us several scaling helpers, we are going to use _scaleLinear_ maps from vaues to pixels
@@ -156,7 +156,8 @@ const svg = d3
   .attr("width", 500)
   .attr("height", 500);
 
-+ const yScale = d3.scaleLinear().domain([0, 350]).range([0, 480]);
+// Let's put the max scale to the most voted party
++ const yScale = d3.scaleLinear().domain([0, 150]).range([0, 480]);
 ```
 
 - And let's scale each bar position plus it's height:
