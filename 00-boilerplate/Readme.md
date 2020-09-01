@@ -85,13 +85,13 @@ _./package.json_
 - Install d3js:
 
 ```bash
-npm install d3 --save-dev
+npm install d3 --save
 ```
 
 - Install d3js typings:
 
 ```bash
-npm install @types/d3 --save
+npm install @types/d3 --save-dev
 ```
 
 - Create a _./src_ folder
