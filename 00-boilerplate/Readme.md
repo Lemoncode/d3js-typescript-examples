@@ -85,7 +85,7 @@ _./package.json_
 - Install d3js:
 
 ```bash
-npm install d3 --save
+npm install d3 --save-dev
 ```
 
 - Install d3js typings:
