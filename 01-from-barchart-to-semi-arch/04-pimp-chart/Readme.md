@@ -24,7 +24,7 @@ npm install
 - Let's install _d3-svg-legend_
 
 ```bash
-npm i d3-svg-legend -S
+npm i d3-svg-legend -P
 ```
 
 - Let's import this legend in our _index.ts_ file.
