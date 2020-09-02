@@ -41,22 +41,22 @@ import { resultCollectionSpainNov19 } from "./data";
 
 _./src/index.ts_
 
-```typescript
+```diff
 // Legend
 const ordinal = d3
   .scaleOrdinal(partiesColor)
   .domain(politicalPartiesKeys)
 
-const legendOrdinal = legendColor().scale(ordinal);
-
-const legendLeft = margin.left;
-const legendTop = radius + 5;
-
-const legendGroup = svg
-  .append("g")
-  .attr("transform", `translate(${legendLeft},${legendTop})`);
-
-legendGroup.call(legendOrdinal);
++ const legendOrdinal = legendColor().scale(ordinal);
++
++ const legendLeft = margin.left;
++ const legendTop = radius + 5;
++
++ const legendGroup = svg
++  .append("g")
++  .attr("transform", `translate(${legendLeft},${legendTop})`);
++
++ legendGroup.call(legendOrdinal);
 ```
 
 - Let's go for one more goodie, we want to highlight the piece of arc where the mouse point
