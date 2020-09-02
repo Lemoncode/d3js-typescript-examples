@@ -37,26 +37,25 @@ import { resultCollectionSpainNov19 } from "./data";
 + import {legendColor} from 'd3-svg-legend';
 ```
 
-- Now let's create and ordinal scale color,map it to a legend object and add it in a group below the semi arch chart.
+- Now let's create and ordinal scale color,map it to a legend object and add it in a group below the semi arch chart (APPEND THIS CONTENT, EOF).
 
 _./src/index.ts_
 
-```diff
+```typescript
 // Legend
 const ordinal = d3
   .scaleOrdinal(partiesColor)
   .domain(politicalPartiesKeys)
 
-+ const legendOrdinal = legendColor().scale(ordinal);
-+
-+ const legendLeft = margin.left;
-+ const legendTop = radius + 5;
-+
-+ const legendGroup = svg
-+  .append("g")
-+  .attr("transform", `translate(${legendLeft},${legendTop})`);
-+
-+ legendGroup.call(legendOrdinal);
+const legendOrdinal = legendColor().scale(ordinal);
+
+const legendLeft = margin.left;
+const legendTop = radius + 5;
+
+const legendGroup = svg
+ .append("g")
+ .attr("transform", `translate(${legendLeft},${legendTop})`);
+legendGroup.call(legendOrdinal);
 ```
 
 - Let's go for one more goodie, we want to highlight the piece of arc where the mouse point
