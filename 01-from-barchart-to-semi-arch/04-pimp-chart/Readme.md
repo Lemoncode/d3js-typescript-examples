@@ -43,11 +43,11 @@ _./src/index.ts_
 
 ```typescript
 // Legend
-var ordinal = d3
+const ordinal = d3
   .scaleOrdinal(partiesColor)
   .domain(politicalPartiesKeys)
 
-var legendOrdinal = legendColor().scale(ordinal);
+const legendOrdinal = legendColor().scale(ordinal);
 
 const legendLeft = margin.left;
 const legendTop = radius + 5;
