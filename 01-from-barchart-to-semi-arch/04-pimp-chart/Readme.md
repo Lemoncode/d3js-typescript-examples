@@ -15,6 +15,14 @@ Live demo: [codesandbox](https://codesandbox.io/s/fervent-lumiere-8w12q)
 
 - We will take as starting sample _03-arc-chart_.
 
+- We will add the parties keys array again:
+
+```typescript
+const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
+  item => item.party
+);
+```
+
 - Let's copy the content from _03-arc-chart_ and execute _npm install_
 
 ```bash
